@@ -179,7 +179,7 @@ export default function EditProductPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex items-center space-x-2">
-          <Loader2 className="h-6 w-6 animate-spin text-[#AE6FFB]" />
+          <Loader2 className="h-6 w-6 animate-spin text-[#555]" />
           <span className="text-gray-600">Carregando produto...</span>
         </div>
       </div>
@@ -195,7 +195,7 @@ export default function EditProductPage() {
           </div>
           <button
             onClick={() => router.back()}
-            className="text-[#AE6FFB] hover:text-[#E05A00] font-medium"
+            className="text-[#555] hover:text-[#E05A00] font-medium"
           >
             Voltar
           </button>
@@ -228,7 +228,7 @@ export default function EditProductPage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="bg-[#AE6FFB] hover:bg-[#E05A00] text-white px-6 py-2 rounded-lg font-medium flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#1a1a1a] hover:bg-[#E05A00] text-white px-6 py-2 rounded-lg font-medium flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? (
               <>
@@ -264,7 +264,7 @@ export default function EditProductPage() {
                     type="text"
                     value={product.title}
                     onChange={(e) => updateProduct('title', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -275,7 +275,7 @@ export default function EditProductPage() {
                     value={product.description}
                     onChange={(e) => updateProduct('description', e.target.value)}
                     rows={6}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -287,7 +287,7 @@ export default function EditProductPage() {
                       type="text"
                       value={product.handle}
                       onChange={(e) => updateProduct('handle', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent"
                     />
                   </div>
                   <div>
@@ -298,7 +298,7 @@ export default function EditProductPage() {
                       type="text"
                       value={product.productType}
                       onChange={(e) => updateProduct('productType', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -311,7 +311,7 @@ export default function EditProductPage() {
                       type="text"
                       value={product.vendor}
                       onChange={(e) => updateProduct('vendor', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent"
                     />
                   </div>
                   <div>
@@ -322,7 +322,7 @@ export default function EditProductPage() {
                       type="text"
                       value={product.tags}
                       onChange={(e) => updateProduct('tags', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent"
                       placeholder="tag1, tag2, tag3"
                     />
                   </div>
@@ -351,7 +351,7 @@ export default function EditProductPage() {
                     </button>
                   </div>
                 ))}
-                <div className="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center hover:border-[#AE6FFB] transition-colors cursor-pointer">
+                <div className="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center hover:border-[#333] transition-colors cursor-pointer">
                   <div className="text-center">
                     <Upload className="h-6 w-6 text-gray-400 mx-auto mb-2" />
                     <span className="text-sm text-gray-500">Adicionar</span>
@@ -377,7 +377,7 @@ export default function EditProductPage() {
                           type="text"
                           value={variant.title}
                           onChange={(e) => updateVariant(index, 'title', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent text-sm"
                         />
                       </div>
                       <div>
@@ -388,7 +388,7 @@ export default function EditProductPage() {
                           type="text"
                           value={variant.price}
                           onChange={(e) => updateVariant(index, 'price', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent text-sm"
                         />
                       </div>
                       <div>
@@ -399,7 +399,7 @@ export default function EditProductPage() {
                           type="number"
                           value={variant.inventoryQuantity}
                           onChange={(e) => updateVariant(index, 'inventoryQuantity', parseInt(e.target.value) || 0)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent text-sm"
                         />
                       </div>
                     </div>
@@ -412,7 +412,7 @@ export default function EditProductPage() {
                           type="text"
                           value={variant.compareAtPrice}
                           onChange={(e) => updateVariant(index, 'compareAtPrice', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent text-sm"
                         />
                       </div>
                     )}
@@ -436,7 +436,7 @@ export default function EditProductPage() {
                 <select
                   value={product.status}
                   onChange={(e) => updateProduct('status', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#333] focus:border-transparent"
                 >
                   <option value="active">Ativo</option>
                   <option value="draft">Rascunho</option>

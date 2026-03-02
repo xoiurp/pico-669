@@ -36,7 +36,7 @@ export default function OrderActionsRenderer({ data, context }: OrderActionsRend
         checked={isSelected}
         onChange={handleCheckboxChange}
         disabled={!isEligible}
-        className="rounded border-gray-300 text-[#AE6FFB] focus:ring-[#AE6FFB] disabled:opacity-50"
+        className="rounded border-gray-300 text-[#555] focus:ring-[#333] disabled:opacity-50"
         title={!isEligible ? 'Pedido não elegível para etiqueta' : 'Selecionar pedido'}
       />
       

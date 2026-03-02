@@ -21,7 +21,7 @@ export default function CustomerRenderer({ data }: CustomerRendererProps) {
 
   return (
     <div className="flex items-center h-full">
-      <div className="w-8 h-8 bg-[#AE6FFB] rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+      <div className="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
         {customerName[0]}
       </div>
       <div>

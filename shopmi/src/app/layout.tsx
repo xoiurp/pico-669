@@ -6,6 +6,7 @@ import { AuthProvider } from "../context/AuthContext";
 import ConditionalHeader from "../components/layout/ConditionalHeader";
 import NewFooter from "../components/layout/NewFooter";
 import GlobalCheckoutInterceptor from "@/components/checkout/GlobalCheckoutInterceptor";
+import PageTransition from "../components/layout/PageTransition";
 
 
 // Configuração da fonte local MiSans (substituir pelos arquivos de fonte da PICO quando disponível)
@@ -48,7 +49,9 @@ export default function RootLayout({
               <ConditionalHeader />
               {/* Mount global interceptor to capture checkout clicks across the app */}
               <GlobalCheckoutInterceptor />
-              <main className="flex-grow">{children}</main>
+              <main className="flex-grow">
+                <PageTransition>{children}</PageTransition>
+              </main>
             <NewFooter />
           </div>
           

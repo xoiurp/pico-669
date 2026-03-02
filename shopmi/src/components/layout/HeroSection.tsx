@@ -6,27 +6,12 @@ import Link from "next/link";
 
 const HeroSection = () => {
   return (
-    <section
-      className="relative w-full h-screen min-h-[600px] overflow-hidden"
-      style={{
-        outline: 'none',
-        boxShadow: 'none',
-        border: 'none',
-        position: 'relative'
-      }}
-    >
+    <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
       {/* Background Image */}
-      <div
-        className="absolute inset-0"
-        style={{
-          outline: 'none',
-          boxShadow: 'none',
-          border: 'none'
-        }}
-      >
+      <div className="absolute inset-0">
         <Image
           src="/hero-section.webp"
-          alt="Hero Background"
+          alt="Banner principal PICO - Coleção Verão 2026"
           fill
           priority
           className="object-cover object-top"
@@ -34,30 +19,13 @@ const HeroSection = () => {
           unoptimized
         />
         {/* Overlay */}
-        <div
-          className="absolute inset-0 bg-black/10"
-          style={{ pointerEvents: 'none' }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent pointer-events-none" />
       </div>
 
       {/* Content */}
-      <div
-        className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4"
-        style={{
-          outline: 'none',
-          boxShadow: 'none',
-          border: 'none'
-        }}
-      >
+      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4">
         {/* Main Content - Bottom aligned */}
-        <div
-          className="mt-auto mb-24 sm:mb-32 md:mb-40"
-          style={{
-            outline: 'none',
-            boxShadow: 'none',
-            border: 'none'
-          }}
-        >
+        <div className="mt-auto mb-24 sm:mb-32 md:mb-40 animate-fade-in">
           {/* Subtitle */}
           <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase mb-4 sm:mb-6 opacity-90">
             Peças exclusivas Verão 26
@@ -71,8 +39,7 @@ const HeroSection = () => {
           {/* CTA Button */}
           <Link
             href="/shop"
-            className="inline-block px-8 sm:px-10 py-3 sm:py-4 border border-white/80 text-[10px] sm:text-xs tracking-[0.3em] uppercase font-medium hover:bg-white hover:text-black transition-all duration-300"
-            style={{ outline: 'none', boxShadow: 'none' }}
+            className="inline-block px-8 sm:px-10 py-3 sm:py-4 border border-white/80 text-[10px] sm:text-xs tracking-[0.3em] uppercase font-medium hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
           >
             Descubra mais
           </Link>

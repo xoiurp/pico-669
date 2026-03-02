@@ -148,7 +148,7 @@ export default function CustomersPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AE6FFB] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#333] mx-auto"></div>
           <p className="mt-4 text-gray-600">Carregando clientes...</p>
         </div>
       </div>
@@ -303,7 +303,7 @@ export default function CustomersPage() {
                     placeholder="Buscar por nome, email ou telefone..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#333] focus:border-transparent"
                   />
                 </div>
               </div>
@@ -312,7 +312,7 @@ export default function CustomersPage() {
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#333] focus:border-transparent"
                 >
                   <option value="all">Todos</option>
                   <option value="vip">VIP</option>
@@ -342,7 +342,7 @@ export default function CustomersPage() {
           <CardContent>
             {isLoading ? (
               <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#AE6FFB]"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#333]"></div>
                 <span className="ml-2">Carregando clientes...</span>
               </div>
             ) : currentCustomers.length === 0 ? (
@@ -374,7 +374,7 @@ export default function CustomersPage() {
                         <tr key={customer.id} className="border-b hover:bg-gray-50">
                           <td className="p-4">
                             <div className="flex items-center">
-                              <div className="w-10 h-10 bg-[#AE6FFB] rounded-full flex items-center justify-center text-white font-bold mr-3">
+                              <div className="w-10 h-10 bg-[#1a1a1a] rounded-full flex items-center justify-center text-white font-bold mr-3">
                                 {getCustomerName(customer)[0]}
                               </div>
                               <div>

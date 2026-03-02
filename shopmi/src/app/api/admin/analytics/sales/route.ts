@@ -148,7 +148,7 @@ export async function GET(request: NextRequest) {
         value: totalProductQuantity > 0
           ? Math.round((product.quantity / totalProductQuantity) * 100)
           : 0,
-        color: ['#AE6FFB', '#FF8533', '#FFA366', '#FFC199'][index] || '#FFE5CC'
+        color: ['#1a1a1a', '#FF8533', '#FFA366', '#FFC199'][index] || '#FFE5CC'
       }));
 
     // Pedidos recentes (últimos 5)

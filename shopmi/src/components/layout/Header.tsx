@@ -30,6 +30,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Gift, ArrowRight, Star, Search, User, ShoppingCart, Menu } from 'lucide-react';
 import logoIcon from '../../assets/images/logo-pico.svg';
 
 interface Collection {
@@ -135,8 +136,6 @@ const Header = () => {
   // HYDRATE STATE FROM CACHE ON MOUNT
   // ============================================
   useEffect(() => {
-    console.log('[Header] 💾 Hidratando estado do cache no mount...');
-
     const productsCache: Record<string, Product[]> = {};
     const subcollectionsCache: Record<string, Collection[]> = {};
 
@@ -144,13 +143,11 @@ const Header = () => {
     fixedMainMenuCategories.forEach(collection => {
       const cachedProducts = getCachedData<Product[]>(`products_${collection.handle}`);
       if (cachedProducts) {
-        console.log(`[Header] 💾 Cache encontrado para produtos: ${collection.handle}`, cachedProducts);
         productsCache[collection.handle] = cachedProducts;
       }
 
       const cachedSubcollections = getCachedData<Collection[]>(`subcollections_${collection.handle}`);
       if (cachedSubcollections) {
-        console.log(`[Header] 💾 Cache encontrado para subcoleções: ${collection.handle}`, cachedSubcollections);
         subcollectionsCache[collection.handle] = cachedSubcollections;
       }
     });
@@ -163,31 +160,25 @@ const Header = () => {
       setDynamicSubcollections(subcollectionsCache);
     }
 
-    console.log('[Header] ✅ Hidratação do cache concluída');
   }, []); // Empty dependency array - run only once on mount
 
   const fetchSubcollections = async (parentId: string, parentHandle: string) => {
     const cacheKey = `subcollections_${parentHandle}`;
     const requestKey = `subcollections_${parentHandle}`;
 
-    console.log(`[fetchSubcollections] Iniciando busca para parentHandle: ${parentHandle}, parentId: ${parentId}`);
-
     // Check if already in state
     if (dynamicSubcollections[parentHandle]) {
-      console.log(`[fetchSubcollections] ✅ Subcategorias para ${parentHandle} já existem no estado.`);
       return;
     }
 
     // Check if request is already ongoing
     if (ongoingRequestsRef.current.has(requestKey)) {
-      console.log(`[fetchSubcollections] ⏳ Requisição já em andamento para ${parentHandle}`);
       return;
     }
 
     // Check cache first
     const cachedData = getCachedData<Collection[]>(cacheKey);
     if (cachedData) {
-      console.log(`[fetchSubcollections] 💾 Usando dados em cache para ${parentHandle}`, cachedData);
       setDynamicSubcollections(prev => ({
         ...prev,
         [parentHandle]: cachedData
@@ -200,14 +191,11 @@ const Header = () => {
     setLoadingSubcollections(prev => ({ ...prev, [parentHandle]: true }));
 
     try {
-      console.log(`[fetchSubcollections] 🌐 Fazendo requisição para ${parentHandle}`);
       const response = await fetch(`/api/collections/subcollections?parentId=${parentId}`);
       if (!response.ok) {
         throw new Error(`Erro HTTP ao buscar subcategorias: ${response.status}`);
       }
       const data = await response.json();
-      console.log(`[fetchSubcollections] ✅ Subcategorias recebidas para ${parentHandle}:`, data.subcollections);
-
       const subcollections = data.subcollections || [];
 
       // Save to cache
@@ -231,24 +219,19 @@ const Header = () => {
     const cacheKey = `products_${identifier}`;
     const requestKey = `products_${identifier}`;
 
-    console.log(`[fetchProductsByCollectionId] Iniciando busca para identifier: ${identifier}, collectionId: ${collectionId}`);
-
     // Check if already in state and not empty
     if (productsByCategory[identifier] && productsByCategory[identifier].length > 0) {
-      console.log(`[fetchProductsByCollectionId] ✅ Produtos para ${identifier} já existem no estado.`);
       return;
     }
 
     // Check if request is already ongoing
     if (ongoingRequestsRef.current.has(requestKey)) {
-      console.log(`[fetchProductsByCollectionId] ⏳ Requisição já em andamento para ${identifier}`);
       return;
     }
 
     // Check cache first
     const cachedData = getCachedData<Product[]>(cacheKey);
     if (cachedData) {
-      console.log(`[fetchProductsByCollectionId] 💾 Usando dados em cache para ${identifier}`, cachedData);
       setProductsByCategory(prev => ({
         ...prev,
         [identifier]: cachedData
@@ -258,22 +241,18 @@ const Header = () => {
 
     // If exists in state but empty (previous error), attempt to fetch again if not in cache
     if (productsByCategory.hasOwnProperty(identifier) && productsByCategory[identifier].length === 0) {
-      console.log(`[fetchProductsByCollectionId] ⚠️ Estado para ${identifier} estava vazio (possível erro anterior), tentando novamente.`);
+      // Previous error, retry
     }
 
     // Mark request as ongoing
     ongoingRequestsRef.current.add(requestKey);
 
     try {
-      console.log(`[fetchProductsByCollectionId] 🌐 Fazendo requisição para ${identifier}`);
-      // Passar collectionId como parâmetro
       const response = await fetch(`/api/megamenu/products-preview?collectionId=${collectionId}&limit=4`);
-      console.log(`[fetchProductsByCollectionId] Resposta da API para ${identifier} status: ${response.status}`);
       if (!response.ok) {
         throw new Error(`Erro HTTP: ${response.status}`);
       }
       const data = await response.json();
-      console.log(`[fetchProductsByCollectionId] ✅ Dados recebidos para ${identifier}:`, data.products);
 
       if (data.error) {
         console.error(`Erro da API ao buscar produtos da coleção ${identifier}:`, data.details || data.error);
@@ -317,8 +296,7 @@ const Header = () => {
     }
   };
 
-  const handleMouseEnter = (menuHandle: string) => { // Renomeado para menuHandle para clareza
-    console.log(`[handleMouseEnter] Mouse entrou em: ${menuHandle}`);
+  const handleMouseEnter = (menuHandle: string) => {
     if (leaveTimeout) {
       clearTimeout(leaveTimeout);
       leaveTimeout = null;
@@ -328,16 +306,11 @@ const Header = () => {
     // Buscar produtos para a coleção quando o mouse passar sobre o item
     // Não buscar para 'todos-produtos' aqui, pois ele não tem ID único
     if (menuHandle !== 'todos-produtos' && fixedMainMenuCategories && fixedMainMenuCategories.length > 0) {
-      const collection = fixedMainMenuCategories.find(c => c.handle === menuHandle); // Encontra a coleção pelo handle
-      if (collection && collection.id) { // Verifica se encontrou e se tem ID
-        console.log(`[handleMouseEnter] Coleção encontrada: ${collection.title} (ID: ${collection.id}, Handle: ${collection.handle})`);
-        fetchProductsByCollectionId(collection.id, collection.handle); // Busca produtos
-        fetchSubcollections(collection.id, collection.handle); // Busca subcategorias
-      } else {
-        console.log(`[handleMouseEnter] Coleção com handle ${menuHandle} não encontrada ou sem ID.`);
+      const collection = fixedMainMenuCategories.find(c => c.handle === menuHandle);
+      if (collection && collection.id) {
+        fetchProductsByCollectionId(collection.id, collection.handle);
+        fetchSubcollections(collection.id, collection.handle);
       }
-    } else if (menuHandle === 'todos-produtos') {
-       console.log("[handleMouseEnter] 'todos-produtos' - Nenhuma busca específica de coleção iniciada.");
     }
   };
 
@@ -350,7 +323,6 @@ const Header = () => {
   // Função auxiliar para renderizar produtos (evita repetição)
   const renderProductGrid = (collectionHandle: string) => {
     const products = productsByCategory[collectionHandle];
-    console.log(`[renderProductGrid] Renderizando produtos para handle: ${collectionHandle}. Produtos encontrados:`, products);
 
     return (
       <div className="col-span-4 grid grid-cols-4 gap-4">
@@ -393,32 +365,21 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50">
       {/* Barra de promoções */}
-      <div className="bg-[#AE6FFB] text-white py-2">
+      <div className="bg-[#1a1a1a] text-white py-2">
         <div className="container mx-auto px-4">
           {/* Slider horizontal no mobile */}
           <div className="block md:hidden overflow-hidden relative whitespace-nowrap">
             <div className="flex animate-slide gap-8 px-4">
               <span className="flex items-center flex-shrink-0">
-                <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20 12V22H4V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M22 7H2V12H22V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 22V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <Gift className="w-4 h-4 mr-1" />
                 Parcele em até 12x sem juros
               </span>
               <span className="flex items-center flex-shrink-0">
-                <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <ArrowRight className="w-4 h-4 mr-1" />
                 Frete Grátis acima de R$200*
               </span>
               <span className="flex items-center flex-shrink-0">
-                <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <Star className="w-4 h-4 mr-1" />
                 8% de desconto à vista**
               </span>
             </div>
@@ -427,28 +388,17 @@ const Header = () => {
           {/* Layout original no desktop */}
           <div className="hidden md:flex flex-wrap justify-center gap-4 text-nav-sm font-medium">
             <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 12V22H4V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M22 7H2V12H22V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 22V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <Gift className="w-4 h-4 mr-1" />
               Parcele em até 12x sem juros
             </span>
             <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <ArrowRight className="w-4 h-4 mr-1" />
               Frete Grátis acima de R$200*
             </span>
             <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                8% de desconto à vista**
-              </span>
+              <Star className="w-4 h-4 mr-1" />
+              8% de desconto à vista**
+            </span>
             </div>
           </div>
         </div>
@@ -508,7 +458,7 @@ const Header = () => {
                             <ul className="space-y-2">
                               {/* Key adicionada ao li estático */}
                               <li key={`ver-tudo-${collection.id}`}>
-                                <Link href={`/shop/${collection.handle}`} className="text-[#AE6FFB] hover:underline flex items-center text-nav-sm">
+                                <Link href={`/shop/${collection.handle}`} className="text-[#1a1a1a] hover:underline flex items-center text-nav-sm">
                                   Ver Tudo <span className="ml-1">&rarr;</span>
                                 </Link>
                               </li>
@@ -517,7 +467,7 @@ const Header = () => {
                               )}
                               {!loadingSubcollections[collection.handle] && dynamicSubcollections[collection.handle] && dynamicSubcollections[collection.handle].map((sub) => (
                                 <li key={sub.id}>
-                                  <Link href={`/shop/${sub.handle}`} className="text-nav-sm font-medium text-gray-600 hover:text-[#AE6FFB]">
+                                  <Link href={`/shop/${sub.handle}`} className="text-nav-sm font-medium text-gray-600 hover:text-[#1a1a1a]">
                                     {sub.title}
                                   </Link>
                                 </li>
@@ -548,28 +498,16 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Buscar produtos..."
-                className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent min-[990px]:p-0 min-[990px]:pl-5 min-[990px]:pr-[50px] min-[990px]:h-[35px] min-[990px]:border-[1.5px] min-[990px]:border-black min-[990px]:text-[#A5A5A5] min-[990px]:text-nav-sm min-[990px]:font-medium min-[990px]:leading-normal min-[990px]:bg-white"
+                className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a1a1a] focus:border-transparent min-[990px]:p-0 min-[990px]:pl-5 min-[990px]:pr-[50px] min-[990px]:h-[35px] min-[990px]:border-[1.5px] min-[990px]:border-black min-[990px]:text-[#A5A5A5] min-[990px]:text-nav-sm min-[990px]:font-medium min-[990px]:leading-normal min-[990px]:bg-white"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
                 <button
                   type="submit"
-                  className="absolute right-0 top-0 h-full px-3 text-gray-500 hover:text-[#AE6FFB]"
+                  className="absolute right-0 top-0 h-full px-3 text-gray-500 hover:text-[#1a1a1a] cursor-pointer"
+                  aria-label="Buscar"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
+                  <Search className="h-5 w-5" />
                 </button>
               </form>
             </div>
@@ -577,22 +515,9 @@ const Header = () => {
             {/* Ícones (Conta e Carrinho) - Touch targets mínimo 44px */}
             <div className="flex items-center space-x-2 sm:space-x-4">
               {/* Link de conta com estado de autenticação */}
-              <Link href="/dashboard" className="text-gray-600 hover:text-[#AE6FFB]">
-                <div className="relative min-w-[44px] min-h-[44px] flex items-center justify-center p-2 sm:p-2.5 border border-gray-200 rounded-md hover:border-[#AE6FFB] transition-colors duration-200">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 sm:h-6 sm:w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
+              <Link href="/dashboard" className="text-gray-600 hover:text-[#1a1a1a] cursor-pointer" aria-label="Minha conta">
+                <div className="relative min-w-[44px] min-h-[44px] flex items-center justify-center p-2 sm:p-2.5 border border-gray-200 rounded-md hover:border-[#1a1a1a] transition-colors duration-200">
+                  <User className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.2} />
                 </div>
               </Link>
 
@@ -600,26 +525,13 @@ const Header = () => {
               <Sheet open={isCartSheetOpen} onOpenChange={setCartSheetOpen}>
                 <SheetTrigger asChild>
                   <button
-                    className="text-gray-600 hover:text-[#AE6FFB] relative"
+                    className="text-gray-600 hover:text-[#1a1a1a] relative cursor-pointer"
                     aria-label="Carrinho"
                   >
-                    <div className="relative min-w-[44px] min-h-[44px] flex items-center justify-center p-2 sm:p-2.5 border border-gray-200 rounded-md hover:border-[#AE6FFB] transition-colors duration-200">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-5 w-5 sm:h-6 sm:w-6"
-                      >
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                      </svg>
+                    <div className="relative min-w-[44px] min-h-[44px] flex items-center justify-center p-2 sm:p-2.5 border border-gray-200 rounded-md hover:border-[#1a1a1a] transition-colors duration-200">
+                      <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.2} />
                       {totalItems > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-[#AE6FFB] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 bg-[#1a1a1a] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                           {totalItems}
                         </span>
                       )}
@@ -634,7 +546,7 @@ const Header = () => {
                   <div className="p-4 pt-8 border-b"> {/* Aumentado padding superior para o X */}
                     <SheetTitle className="text-center text-section font-semibold mb-1">Meu Carrinho ({totalItems})</SheetTitle>
                     <div className="text-center"> {/* Ou text-right se preferir */}
-                      <Link href="/cart" className="text-nav-sm text-gray-600 hover:text-[#AE6FFB] hover:underline">
+                      <Link href="/cart" className="text-nav-sm text-gray-600 hover:text-[#1a1a1a] hover:underline">
                         Ver Todos
                       </Link>
                     </div>
@@ -648,23 +560,10 @@ const Header = () => {
                 <Sheet>
                   <SheetTrigger asChild>
                     <button
-                      className="text-gray-600 hover:text-[#AE6FFB] min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-md hover:bg-gray-100 transition-colors"
+                      className="text-gray-600 hover:text-[#1a1a1a] min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
                       aria-label="Menu"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M4 6h16M4 12h16M4 18h16"
-                        />
-                      </svg>
+                      <Menu className="h-6 w-6" />
                     </button>
                   </SheetTrigger>
                   <SheetContent side="left" className="w-4/5 max-w-sm p-0"> {/* Ajuste de padding e largura */}
@@ -691,36 +590,24 @@ const Header = () => {
                           <input
                             type="text"
                             placeholder="Buscar produtos..."
-                            className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent text-nav-sm"
+                            className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a1a1a] focus:border-transparent text-nav-sm"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             tabIndex={-1}
                           />
                           <button
                             type="submit"
-                            className="absolute right-0 top-0 h-full px-3 text-gray-500 hover:text-[#AE6FFB]"
+                            className="absolute right-0 top-0 h-full px-3 text-gray-500 hover:text-[#1a1a1a] cursor-pointer"
+                            aria-label="Buscar"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                              />
-                            </svg>
+                            <Search className="h-5 w-5" />
                           </button>
                         </form>
                       </div>
 
                       <nav className="space-y-1">
                         <SheetClose asChild>
-                          <Link href="/" className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#AE6FFB]">
+                          <Link href="/" className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#1a1a1a]">
                             Início
                           </Link>
                         </SheetClose>
@@ -729,7 +616,7 @@ const Header = () => {
                         <SheetClose asChild>
                           <Link
                             href="/shop"
-                            className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#AE6FFB]"
+                            className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#1a1a1a]"
                           >
                             Shop
                           </Link>
@@ -754,7 +641,7 @@ const Header = () => {
                               const collectionElement = (
                                 <AccordionItem value={collection.id} key={collection.id} className="border-b-0">
                                   <AccordionTrigger 
-                                    className="flex items-center p-2 -mx-2 rounded-md text-nav-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-[#AE6FFB] hover:no-underline justify-between w-full"
+                                    className="flex items-center p-2 -mx-2 rounded-md text-nav-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-[#1a1a1a] hover:no-underline justify-between w-full"
                                     onClick={() => {
                                       // Se as subcoleções ainda não foram buscadas para este handle, busca agora.
                                       // Isso é uma alternativa ao hover para mobile.
@@ -769,7 +656,7 @@ const Header = () => {
                                     <ul className="space-y-1">
                                       <li>
                                         <SheetClose asChild>
-                                          <Link href={`/shop/${collection.handle}`} className="flex items-center p-1.5 -mx-1 rounded-md hover:bg-gray-100 text-nav-sm text-gray-600 hover:text-[#AE6FFB]">
+                                          <Link href={`/shop/${collection.handle}`} className="flex items-center p-1.5 -mx-1 rounded-md hover:bg-gray-100 text-nav-sm text-gray-600 hover:text-[#1a1a1a]">
                                             Ver Tudo em {collection.title}
                                           </Link>
                                         </SheetClose>
@@ -780,7 +667,7 @@ const Header = () => {
                                       {!isLoading && currentSubcollections && currentSubcollections.map((sub) => (
                                         <li key={`${collection.id}-${sub.id}`}>
                                           <SheetClose asChild>
-                                            <Link href={`/shop/${sub.handle}`} className="flex items-center p-1.5 -mx-1 rounded-md hover:bg-gray-100 text-nav-sm text-gray-600 hover:text-[#AE6FFB]">
+                                            <Link href={`/shop/${sub.handle}`} className="flex items-center p-1.5 -mx-1 rounded-md hover:bg-gray-100 text-nav-sm text-gray-600 hover:text-[#1a1a1a]">
                                               {sub.title}
                                             </Link>
                                           </SheetClose>
@@ -800,7 +687,7 @@ const Header = () => {
                               // if (!collection.subcollections || collection.subcollections.length === 0) {
                               //   return (
                               //     <SheetClose asChild key={collection.id}>
-                              //       <Link href={`/shop/${collection.handle}`} className="flex items-center p-2 -mx-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-[#AE6FFB] w-full">
+                              //       <Link href={`/shop/${collection.handle}`} className="flex items-center p-2 -mx-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-[#1a1a1a] w-full">
                               //         {collection.title}
                               //       </Link>
                               //     </SheetClose>
@@ -814,17 +701,17 @@ const Header = () => {
 
                         <hr className="my-4" />
                         <SheetClose asChild>
-                           <Link href="/dashboard" className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#AE6FFB]">
+                           <Link href="/dashboard" className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#1a1a1a]">
                             Minha Conta
                           </Link>
                         </SheetClose>
                          <SheetClose asChild>
-                           <Link href="/auth/signin" className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#AE6FFB]">
+                           <Link href="/auth/signin" className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#1a1a1a]">
                             Entrar
                           </Link>
                         </SheetClose>
                          <SheetClose asChild>
-                           <Link href="/auth/signup" className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#AE6FFB]">
+                           <Link href="/auth/signup" className="flex items-center p-2 -mx-2 rounded-md hover:bg-gray-100 text-nav-sm text-gray-700 hover:text-[#1a1a1a]">
                             Cadastrar
                           </Link>
                         </SheetClose>

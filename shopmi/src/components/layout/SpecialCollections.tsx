@@ -97,7 +97,7 @@ const SpecialCollections: React.FC<SpecialCollectionsProps> = ({ collections }) 
   if (loading) {
     return (
       <section className="w-full py-12 sm:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {[1, 2, 3].map((i) => (
               <div key={i} className="animate-pulse">
@@ -113,11 +113,11 @@ const SpecialCollections: React.FC<SpecialCollectionsProps> = ({ collections }) 
 
   return (
     <section className="w-full py-12 sm:py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-gray-900">
-            Our <span className="italic">special</span> collections
+            Nossas coleções <span className="italic">especiais</span>
           </h2>
 
           <div className="flex items-center gap-4">
@@ -125,7 +125,7 @@ const SpecialCollections: React.FC<SpecialCollectionsProps> = ({ collections }) 
               href="/shop"
               className="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gray-500 hover:text-gray-900 transition-colors border-b border-gray-300 hover:border-gray-900 pb-0.5"
             >
-              Explore All
+              Ver Todas
             </Link>
 
             {/* Navigation Arrows */}

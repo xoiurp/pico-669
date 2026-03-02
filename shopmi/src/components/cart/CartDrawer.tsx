@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Plus, Minus, Trash2 } from 'lucide-react';
+import { Plus, Minus, Trash2, Check } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { SheetClose } from '../ui/sheet';
 
@@ -13,16 +13,13 @@ const CartDrawerContent: React.FC = () => {
   const { cart, totalItems, totalPrice, updateQuantity, removeFromCart, setCartSheetOpen } = useCart();
   const [agreedToTerms, setAgreedToTerms] = useState(true);
 
-  // Free shipping threshold
   const FREE_SHIPPING_THRESHOLD = 500;
   const amountForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice);
   const freeShippingProgress = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100);
 
-  // Format price
   const formatPrice = (price: number | string, currencyCode: string = 'BRL') => {
     const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
     if (isNaN(numericPrice)) return 'Preço inválido';
-    
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: currencyCode,
@@ -42,15 +39,7 @@ const CartDrawerContent: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full bg-white">
-      {/* Header */}
-      <div className="p-6 border-b border-[#e0e0e0]">
-        <h2 className="text-xl font-normal text-[#1a1a1a]">
-          Seu carrinho
-          <sup className="ml-1 text-sm">{totalItems}</sup>
-        </h2>
-      </div>
-
-      {/* Free shipping message */}
+      {/* Free shipping progress */}
       {cart.length > 0 && (
         <div className="px-6 py-3 border-b border-[#e0e0e0]">
           {amountForFreeShipping > 0 ? (
@@ -61,16 +50,14 @@ const CartDrawerContent: React.FC = () => {
               </p>
               <div className="w-full h-1.5 bg-[#e0e0e0] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-[#1a1a1a] rounded-full transition-all duration-500"
+                  className="h-full bg-[#1a1a1a] rounded-full transition-all duration-500 ease-out"
                   style={{ width: `${freeShippingProgress}%` }}
                 />
               </div>
             </>
           ) : (
             <p className="text-xs text-[#1a1a1a] font-medium flex items-center gap-1.5">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
+              <Check className="w-4 h-4" />
               Parabéns! Você ganhou frete grátis
             </p>
           )}
@@ -86,6 +73,7 @@ const CartDrawerContent: React.FC = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -99,7 +87,7 @@ const CartDrawerContent: React.FC = () => {
               Adicione produtos para continuar
             </p>
             <SheetClose asChild>
-              <button className="mt-6 px-8 py-3 bg-[#1a1a1a] text-white text-xs uppercase tracking-[0.15em] font-medium hover:bg-black transition-colors">
+              <button className="mt-6 px-8 py-3 bg-[#1a1a1a] text-white text-xs uppercase tracking-[0.15em] font-medium hover:bg-black transition-colors cursor-pointer">
                 Continuar comprando
               </button>
             </SheetClose>
@@ -109,10 +97,10 @@ const CartDrawerContent: React.FC = () => {
             {cart.map((item) => (
               <div key={item.variantId} className="p-6 flex gap-4">
                 {/* Product Image */}
-                <Link 
+                <Link
                   href={`/product/${item.handle}`}
                   onClick={() => setCartSheetOpen(false)}
-                  className="flex-shrink-0 w-20 h-24 bg-white relative overflow-hidden border border-[#e0e0e0]"
+                  className="flex-shrink-0 w-20 h-24 bg-white relative overflow-hidden border border-[#e0e0e0] cursor-pointer"
                 >
                   <Image
                     src={item.image}
@@ -126,18 +114,17 @@ const CartDrawerContent: React.FC = () => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <Link 
+                      <Link
                         href={`/product/${item.handle}`}
                         onClick={() => setCartSheetOpen(false)}
-                        className="text-sm font-medium text-[#1a1a1a] uppercase tracking-wide hover:underline"
+                        className="text-sm font-medium text-[#1a1a1a] uppercase tracking-wide hover:underline cursor-pointer"
                       >
                         {item.title}
                       </Link>
                       <p className="mt-1 text-sm text-[#666]">
                         {formatPrice(item.price, item.currencyCode)}
                       </p>
-                      
-                      {/* Selected Options */}
+
                       {item.variantOptions && item.variantOptions.length > 0 && (
                         <p className="mt-1 text-xs text-[#999]">
                           {item.variantOptions.map(opt => opt.value).join(' · ')}
@@ -145,10 +132,9 @@ const CartDrawerContent: React.FC = () => {
                       )}
                     </div>
 
-                    {/* Remove button */}
                     <button
                       onClick={() => removeFromCart(item.variantId)}
-                      className="p-1 text-[#999] hover:text-[#1a1a1a] transition-colors"
+                      className="p-1 text-[#999] hover:text-[#1a1a1a] transition-colors cursor-pointer"
                       aria-label="Remover item"
                     >
                       <Trash2 size={16} />
@@ -157,11 +143,10 @@ const CartDrawerContent: React.FC = () => {
 
                   {/* Quantity and Price */}
                   <div className="mt-3 flex items-center justify-between">
-                    {/* Quantity Controls */}
                     <div className="flex items-center border border-[#e0e0e0]">
                       <button
                         onClick={() => updateQuantity(item.variantId, Math.max(0, item.quantity - 1))}
-                        className="w-8 h-8 flex items-center justify-center text-[#666] hover:bg-[#f5f5f5] transition-colors"
+                        className="w-8 h-8 flex items-center justify-center text-[#666] hover:bg-[#f5f5f5] transition-colors cursor-pointer"
                         aria-label="Diminuir quantidade"
                       >
                         <Minus size={14} />
@@ -171,14 +156,13 @@ const CartDrawerContent: React.FC = () => {
                       </span>
                       <button
                         onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                        className="w-8 h-8 flex items-center justify-center text-[#666] hover:bg-[#f5f5f5] transition-colors"
+                        className="w-8 h-8 flex items-center justify-center text-[#666] hover:bg-[#f5f5f5] transition-colors cursor-pointer"
                         aria-label="Aumentar quantidade"
                       >
                         <Plus size={14} />
                       </button>
                     </div>
 
-                    {/* Line Total */}
                     <span className="text-sm font-medium text-[#1a1a1a]">
                       {formatPrice(item.price * item.quantity, item.currencyCode)}
                     </span>
@@ -193,7 +177,6 @@ const CartDrawerContent: React.FC = () => {
       {/* Footer */}
       {cart.length > 0 && (
         <div className="border-t border-[#e0e0e0] p-6 space-y-4">
-          {/* Subtotal */}
           <div className="flex items-center justify-between">
             <span className="text-base font-medium text-[#1a1a1a]">Subtotal</span>
             <span className="text-lg font-medium text-[#1a1a1a]">
@@ -201,18 +184,16 @@ const CartDrawerContent: React.FC = () => {
             </span>
           </div>
 
-          {/* Tax info */}
           <p className="text-xs text-[#666]">
             Taxas incluídas. <span className="underline cursor-pointer">Frete calculado</span> no checkout.
           </p>
 
-          {/* Terms checkbox */}
           <label className="flex items-start gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={agreedToTerms}
               onChange={(e) => setAgreedToTerms(e.target.checked)}
-              className="mt-0.5 w-4 h-4 border-[#ccc] rounded text-[#1a1a1a] focus:ring-0 focus:ring-offset-0"
+              className="mt-0.5 w-4 h-4 border-[#ccc] rounded text-[#1a1a1a] accent-[#1a1a1a]"
             />
             <span className="text-xs text-[#666]">
               Concordo com os{' '}
@@ -223,18 +204,17 @@ const CartDrawerContent: React.FC = () => {
             </span>
           </label>
 
-          {/* Action Buttons */}
           <div className="grid grid-cols-2 gap-3 pt-2">
             <button
               onClick={handleViewCart}
-              className="py-3.5 text-xs uppercase tracking-[0.15em] font-medium border border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#f5f5f5] transition-colors"
+              className="py-3.5 text-xs uppercase tracking-[0.15em] font-medium border border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#f5f5f5] transition-colors cursor-pointer"
             >
               Ver carrinho
             </button>
             <button
               onClick={handleCheckout}
               disabled={!agreedToTerms}
-              className={`py-3.5 text-xs uppercase tracking-[0.15em] font-medium transition-colors ${
+              className={`py-3.5 text-xs uppercase tracking-[0.15em] font-medium transition-colors cursor-pointer ${
                 agreedToTerms
                   ? 'bg-[#1a1a1a] text-white hover:bg-black'
                   : 'bg-[#e0e0e0] text-[#999] cursor-not-allowed'

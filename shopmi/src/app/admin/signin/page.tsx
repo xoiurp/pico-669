@@ -58,7 +58,7 @@ export default function AdminSignInPage() {
           </Link>
           <div className="mt-6 flex justify-center">
             <div className="flex items-center space-x-2">
-              <Shield className="h-8 w-8 text-[#AE6FFB]" />
+              <Shield className="h-8 w-8 text-[#555]" />
               <h2 className="text-3xl font-bold text-gray-900">
                 Área Administrativa
               </h2>
@@ -69,10 +69,10 @@ export default function AdminSignInPage() {
           </p>
         </div>
 
-        <Card className="border-2 border-[#AE6FFB]/20">
-          <CardHeader className="bg-[#AE6FFB]/5">
+        <Card className="border-2 border-[#333]/20">
+          <CardHeader className="bg-[#1a1a1a]/5">
             <CardTitle className="flex items-center space-x-2">
-              <Shield className="h-5 w-5 text-[#AE6FFB]" />
+              <Shield className="h-5 w-5 text-[#555]" />
               <span>Login Administrativo</span>
             </CardTitle>
             <CardDescription>
@@ -132,7 +132,7 @@ export default function AdminSignInPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-[#AE6FFB] hover:bg-[#E05A00]"
+                className="w-full bg-[#1a1a1a] hover:bg-[#E05A00]"
                 disabled={isLoading}
               >
                 {isLoading ? 'Verificando...' : 'Acessar Painel'}
@@ -145,7 +145,7 @@ export default function AdminSignInPage() {
               </div>
               <Link
                 href="/auth/signin"
-                className="text-sm font-medium text-[#AE6FFB] hover:text-[#E05A00]"
+                className="text-sm font-medium text-[#555] hover:text-[#E05A00]"
               >
                 Fazer login como cliente
               </Link>

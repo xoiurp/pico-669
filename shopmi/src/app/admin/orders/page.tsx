@@ -106,7 +106,7 @@ const SelectionRenderer = (params: ICellRendererParams) => {
         checked={isSelected}
         onChange={() => context.toggleOrderSelection(order.id)}
         disabled={!isEligible}
-        className="rounded border-gray-300 text-[#AE6FFB] focus:ring-[#AE6FFB] disabled:opacity-50 cursor-pointer"
+        className="rounded border-gray-300 text-[#555] focus:ring-[#333] disabled:opacity-50 cursor-pointer"
         title={!isEligible ? 'Pedido não elegível para etiqueta' : 'Selecionar pedido'}
       />
     </div>
@@ -123,7 +123,7 @@ const OrderNumberRenderer = (params: ICellRendererParams) => {
   
   return (
     <div>
-      <div className="font-medium text-[#AE6FFB]">{order.name}</div>
+      <div className="font-medium text-[#555]">{order.name}</div>
       <div className="text-sm text-gray-500">
         ID: {order.id.split('/').pop()}
       </div>
@@ -162,7 +162,7 @@ const CustomerRenderer = (params: ICellRendererParams) => {
   
   return (
     <div className="flex items-center">
-      <div className="w-8 h-8 bg-[#AE6FFB] rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+      <div className="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
         {customerName[0]}
       </div>
       <div>
@@ -630,7 +630,7 @@ export default function OrdersPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AE6FFB] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#333] mx-auto"></div>
           <p className="mt-4 text-gray-600">Carregando pedidos...</p>
         </div>
       </div>
@@ -675,7 +675,7 @@ export default function OrdersPage() {
               <Button
                 onClick={openLabelModal}
                 disabled={selectedEligibleCount === 0}
-                className="bg-[#AE6FFB] hover:bg-[#E55A00] text-white disabled:opacity-50"
+                className="bg-[#1a1a1a] hover:bg-[#E55A00] text-white disabled:opacity-50"
               >
                 <Printer className="h-4 w-4 mr-2" />
                 {selectedEligibleCount > 0 
@@ -791,7 +791,7 @@ export default function OrdersPage() {
                     placeholder="Buscar por número do pedido, cliente ou produto..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#333] focus:border-transparent"
                   />
                 </div>
               </div>
@@ -800,7 +800,7 @@ export default function OrdersPage() {
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#333] focus:border-transparent"
                 >
                   <option value="all">Todos os Status</option>
                   <option value="fulfilled">Entregue</option>
@@ -816,7 +816,7 @@ export default function OrdersPage() {
                 <select
                   value={filterFinancial}
                   onChange={(e) => setFilterFinancial(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#333] focus:border-transparent"
                 >
                   <option value="all">Todos Pagamentos</option>
                   <option value="paid">Pago</option>
@@ -844,7 +844,7 @@ export default function OrdersPage() {
             <CardTitle>
               Lista de Pedidos ({filteredData.length})
               {selectedOrders.size > 0 && (
-                <span className="ml-2 text-sm font-normal text-[#AE6FFB]">
+                <span className="ml-2 text-sm font-normal text-[#555]">
                   • {selectedOrders.size} selecionado{selectedOrders.size !== 1 ? 's' : ''}
                 </span>
               )}
@@ -861,7 +861,7 @@ export default function OrdersPage() {
           <CardContent>
             {isLoading ? (
               <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#AE6FFB]"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#333]"></div>
                 <span className="ml-2">Carregando pedidos...</span>
               </div>
             ) : filteredData.length === 0 ? (

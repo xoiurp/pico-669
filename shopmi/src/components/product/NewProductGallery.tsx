@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
@@ -17,22 +18,26 @@ interface NewProductGalleryProps {
 const NewProductGallery: React.FC<NewProductGalleryProps> = ({ images }) => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
   // Filter out empty images
   const validImages = images.filter((img) => img.transformedSrc);
 
   const openLightbox = useCallback((index: number) => {
+    setDirection(0);
     setLightboxIndex(index);
     setLightboxOpen(true);
   }, []);
 
   const goToPrev = useCallback(() => {
+    setDirection(-1);
     setLightboxIndex((prev) =>
       prev === 0 ? validImages.length - 1 : prev - 1
     );
   }, [validImages.length]);
 
   const goToNext = useCallback(() => {
+    setDirection(1);
     setLightboxIndex((prev) =>
       prev === validImages.length - 1 ? 0 : prev + 1
     );
@@ -143,18 +148,30 @@ const NewProductGallery: React.FC<NewProductGalleryProps> = ({ images }) => {
             {lightboxIndex + 1} / {validImages.length}
           </div>
 
-          {/* Main image */}
-          <div className="relative w-full h-full flex items-center justify-center">
-            <Image
-              src={validImages[lightboxIndex].transformedSrc}
-              alt={
-                validImages[lightboxIndex].altText ||
-                `Imagem do produto ${lightboxIndex + 1}`
-              }
-              fill
-              className="object-contain p-12 md:p-20"
-              sizes="95vw"
-            />
+          {/* Main image with cross-fade */}
+          <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+            <AnimatePresence mode="popLayout" initial={false} custom={direction}>
+              <motion.div
+                key={lightboxIndex}
+                custom={direction}
+                initial={{ opacity: 0, x: direction * 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction * -40 }}
+                transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={validImages[lightboxIndex].transformedSrc}
+                  alt={
+                    validImages[lightboxIndex].altText ||
+                    `Imagem do produto ${lightboxIndex + 1}`
+                  }
+                  fill
+                  className="object-contain p-12 md:p-20"
+                  sizes="95vw"
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Navigation arrows */}
@@ -181,10 +198,13 @@ const NewProductGallery: React.FC<NewProductGalleryProps> = ({ images }) => {
               {validImages.map((image, index) => (
                 <button
                   key={index}
-                  onClick={() => setLightboxIndex(index)}
-                  className={`relative w-14 h-14 flex-shrink-0 border-2 transition-all overflow-hidden ${
+                  onClick={() => {
+                    setDirection(index > lightboxIndex ? 1 : -1);
+                    setLightboxIndex(index);
+                  }}
+                  className={`relative w-14 h-14 flex-shrink-0 border-2 transition-all duration-200 overflow-hidden cursor-pointer ${
                     lightboxIndex === index
-                      ? "border-[#1a1a1a]"
+                      ? "border-[#1a1a1a] scale-110"
                       : "border-[#e0e0e0] hover:border-[#999]"
                   }`}
                 >

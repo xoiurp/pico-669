@@ -378,7 +378,7 @@ export default function LabelGenerationModal({
                     {selectedOrders.map(order => (
                       <div key={order.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-[#AE6FFB] rounded-full flex items-center justify-center text-white text-sm font-bold">
+                          <div className="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center text-white text-sm font-bold">
                             {order.name.slice(-2)}
                           </div>
                           <div>
@@ -418,7 +418,7 @@ export default function LabelGenerationModal({
                 <CardContent>
                   {isLoadingOptions ? (
                     <div className="flex items-center justify-center p-8">
-                      <Loader2 className="h-8 w-8 animate-spin text-[#AE6FFB]" />
+                      <Loader2 className="h-8 w-8 animate-spin text-[#555]" />
                       <span className="ml-3 text-lg">Calculando melhores opções de frete...</span>
                     </div>
                   ) : shippingResults.length > 0 ? (
@@ -456,7 +456,7 @@ export default function LabelGenerationModal({
                                         key={option.id}
                                         className={`p-3 border rounded-lg cursor-pointer transition-all ${
                                           isSelected
-                                            ? 'border-[#AE6FFB] bg-orange-50'
+                                            ? 'border-[#333] bg-orange-50'
                                             : 'border-gray-200 hover:border-gray-300'
                                         } ${isRecommended ? 'ring-2 ring-green-500' : ''}`}
                                         onClick={() => {
@@ -555,7 +555,7 @@ export default function LabelGenerationModal({
                 <Button variant="outline" onClick={handleClose}>
                   Cancelar
                 </Button>
-                <Button onClick={generateLabels} className="bg-[#AE6FFB] hover:bg-[#E55A00]">
+                <Button onClick={generateLabels} className="bg-[#1a1a1a] hover:bg-[#E55A00]">
                   <Printer className="h-4 w-4 mr-2" />
                   Gerar Etiquetas
                 </Button>
@@ -565,7 +565,7 @@ export default function LabelGenerationModal({
 
           {step === 'processing' && (
             <div className="text-center py-12">
-              <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-[#AE6FFB]" />
+              <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-[#555]" />
               <h3 className="text-lg font-medium mb-2">Processando etiquetas...</h3>
               <p className="text-gray-600 mb-4">
                 Gerando etiquetas para {selectedOrders.length} pedido{selectedOrders.length !== 1 ? 's' : ''}
@@ -574,7 +574,7 @@ export default function LabelGenerationModal({
               {/* Barra de Progresso */}
               <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
                 <div 
-                  className="bg-[#AE6FFB] h-2 rounded-full transition-all duration-300"
+                  className="bg-[#1a1a1a] h-2 rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
@@ -605,7 +605,7 @@ export default function LabelGenerationModal({
                   href="https://melhorenvio.com.br/carrinho"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#AE6FFB] hover:bg-[#E55A00]"
+                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#1a1a1a] hover:bg-[#E55A00]"
                 >
                   <Truck className="h-4 w-4 mr-2" />
                   Ver Carrinho no Melhor Envio
@@ -629,7 +629,7 @@ export default function LabelGenerationModal({
                 <Button variant="outline" onClick={handleClose}>
                   Fechar
                 </Button>
-                <Button onClick={() => setStep('config')} className="bg-[#AE6FFB] hover:bg-[#E55A00]">
+                <Button onClick={() => setStep('config')} className="bg-[#1a1a1a] hover:bg-[#E55A00]">
                   Tentar Novamente
                 </Button>
               </div>

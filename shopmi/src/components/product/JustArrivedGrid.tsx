@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Product } from "../../lib/shopify";
 
 interface JustArrivedGridProps {
@@ -10,16 +11,74 @@ interface JustArrivedGridProps {
 }
 
 const JustArrivedGrid: React.FC<JustArrivedGridProps> = ({ products }) => {
-  // Pegar os 4 primeiros produtos
-  const displayProducts = products.slice(0, 4);
+  const displayProducts = products.slice(0, 8);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 2);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 2);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [checkScroll, displayProducts.length]);
+
+  const isScrolling = useRef(false);
+
+  const smoothScrollTo = (el: HTMLElement, target: number, duration: number) => {
+    if (isScrolling.current) return;
+    isScrolling.current = true;
+    const start = el.scrollLeft;
+    const delta = target - start;
+    const startTime = performance.now();
+
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      el.scrollLeft = start + delta * easeInOutCubic(progress);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        isScrolling.current = false;
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el || isScrolling.current) return;
+    const cardWidth = el.querySelector<HTMLElement>(":scope > a")?.offsetWidth || 280;
+    const gap = 24;
+    const distance = cardWidth + gap;
+    const target = el.scrollLeft + (direction === "left" ? -distance : distance);
+    const clamped = Math.max(0, Math.min(target, el.scrollWidth - el.clientWidth));
+    smoothScrollTo(el, clamped, 500);
+  };
 
   return (
     <section className="w-full py-12 sm:py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-gray-900">
-            Just arrived
+            Acabou de chegar
           </h2>
 
           <div className="flex items-center gap-4">
@@ -27,59 +86,41 @@ const JustArrivedGrid: React.FC<JustArrivedGridProps> = ({ products }) => {
               href="/shop"
               className="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gray-500 hover:text-gray-900 transition-colors border-b border-gray-300 hover:border-gray-900 pb-0.5"
             >
-              View All
+              Ver Todos
             </Link>
 
             {/* Navigation Arrows */}
             <div className="hidden sm:flex items-center gap-2">
               <button
-                className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
-                aria-label="Previous"
+                onClick={() => scroll("left")}
+                disabled={!canScrollLeft}
+                className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default"
+                aria-label="Anterior"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
+                <ChevronLeft className="w-4 h-4" />
               </button>
               <button
-                className="w-10 h-10 flex items-center justify-center text-gray-900 hover:text-gray-600 transition-colors"
-                aria-label="Next"
+                onClick={() => scroll("right")}
+                disabled={!canScrollRight}
+                className="w-10 h-10 flex items-center justify-center text-gray-900 hover:text-gray-600 transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default"
+                aria-label="Próximo"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {/* Product Slider */}
+        <div
+          ref={scrollRef}
+          className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide"
+        >
           {displayProducts.map((product) => {
             const price = product.priceRange?.minVariantPrice?.amount;
             const currency = product.priceRange?.minVariantPrice?.currencyCode;
             const image = product.images?.edges?.[0]?.node;
-            
-            // Contar variantes/cores disponíveis
+
             const variantCount = product.variants?.edges?.length || 1;
             const hasMultipleColors = variantCount > 1;
 
@@ -87,7 +128,7 @@ const JustArrivedGrid: React.FC<JustArrivedGridProps> = ({ products }) => {
               <Link
                 key={product.id}
                 href={`/product/${product.handle}`}
-                className="group block"
+                className="group block cursor-pointer flex-shrink-0 w-[45%] sm:w-[calc(25%-18px)]"
               >
                 {/* Image Container */}
                 <div className="relative aspect-[3/4] bg-white overflow-hidden mb-4">
@@ -97,7 +138,7 @@ const JustArrivedGrid: React.FC<JustArrivedGridProps> = ({ products }) => {
                       alt={image.altText || product.title}
                       fill
                       className="object-contain object-center group-hover:scale-105 transition-transform duration-500 p-4"
-                      sizes="(max-width: 768px) 50vw, 25vw"
+                      sizes="(max-width: 768px) 45vw, 25vw"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-300">
@@ -106,6 +147,7 @@ const JustArrivedGrid: React.FC<JustArrivedGridProps> = ({ products }) => {
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <path
                           strokeLinecap="round"
@@ -120,12 +162,10 @@ const JustArrivedGrid: React.FC<JustArrivedGridProps> = ({ products }) => {
 
                 {/* Product Info */}
                 <div className="space-y-1">
-                  {/* Product Name */}
-                  <h3 className="text-[11px] sm:text-xs tracking-wide uppercase text-gray-900 font-normal">
+                  <h3 className="text-[11px] sm:text-xs tracking-wide uppercase text-gray-900 font-normal group-hover:text-[#555] transition-colors">
                     {product.title}
                   </h3>
 
-                  {/* Price */}
                   <p className="text-[11px] sm:text-xs text-gray-600">
                     {currency === "BRL" ? "R$" : currency}{" "}
                     {price
@@ -136,11 +176,10 @@ const JustArrivedGrid: React.FC<JustArrivedGridProps> = ({ products }) => {
                       : "0,00"}
                   </p>
 
-                  {/* Availability Info */}
                   <p className="text-[10px] text-gray-400">
                     {hasMultipleColors
-                      ? `Available in ${variantCount} color${variantCount > 1 ? "s" : ""}`
-                      : "Available in 1 color"}
+                      ? `Disponível em ${variantCount} ${variantCount > 1 ? "cores" : "cor"}`
+                      : "Disponível em 1 cor"}
                   </p>
                 </div>
               </Link>

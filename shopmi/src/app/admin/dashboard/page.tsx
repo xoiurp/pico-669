@@ -193,7 +193,7 @@ export default function AdminDashboard() {
         setTopProducts(salesData.topProducts);
       } else {
         setTopProducts([
-          { name: 'Produtos', value: 100, color: '#AE6FFB' }
+          { name: 'Produtos', value: 100, color: '#1a1a1a' }
         ]);
       }
 
@@ -251,7 +251,7 @@ export default function AdminDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AE6FFB] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#333] mx-auto"></div>
           <p className="mt-4 text-gray-600">Carregando dashboard...</p>
         </div>
       </div>
@@ -297,7 +297,7 @@ export default function AdminDashboard() {
 
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-2">
-          <div className={`flex items-center p-3 rounded-lg bg-[#AE6FFB] text-white ${!sidebarOpen && 'justify-center'}`}>
+          <div className={`flex items-center p-3 rounded-lg bg-[#1a1a1a] text-white ${!sidebarOpen && 'justify-center'}`}>
             <BarChart3 className="h-5 w-5" />
             {sidebarOpen && <span className="ml-3">Dashboard</span>}
           </div>
@@ -346,7 +346,7 @@ export default function AdminDashboard() {
         {/* User Info */}
         <div className="p-4 border-t">
           <div className={`flex items-center ${!sidebarOpen && 'justify-center'}`}>
-            <div className="w-8 h-8 bg-[#AE6FFB] rounded-full flex items-center justify-center text-white font-bold">
+            <div className="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center text-white font-bold">
               {session.user.name?.[0] || 'A'}
             </div>
             {sidebarOpen && (
@@ -406,7 +406,7 @@ export default function AdminDashboard() {
                   variant="outline"
                   size="sm"
                   onClick={fetchDashboardData}
-                  className="bg-[#AE6FFB] text-white hover:bg-[#E05A00]"
+                  className="bg-[#1a1a1a] text-white hover:bg-[#E05A00]"
                 >
                   Filtrar
                 </Button>
@@ -429,7 +429,7 @@ export default function AdminDashboard() {
                 <input
                   type="text"
                   placeholder="Buscar..."
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AE6FFB] focus:border-transparent"
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#333] focus:border-transparent"
                 />
               </div>
               
@@ -562,7 +562,7 @@ export default function AdminDashboard() {
                         name === 'vendas' ? 'Vendas' : 'Pedidos'
                       ]}
                     />
-                    <Bar dataKey="vendas" fill="#AE6FFB" />
+                    <Bar dataKey="vendas" fill="#1a1a1a" />
                     <Bar dataKey="pedidos" fill="#FFA366" />
                   </BarChart>
                 </ResponsiveContainer>

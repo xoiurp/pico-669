@@ -100,7 +100,7 @@ function MelhorEnvioCallbackContent() {
               )}
               
               <Link href="/admin/orders">
-                <Button className="w-full bg-[#AE6FFB] hover:bg-[#E55A00]">
+                <Button className="w-full bg-[#1a1a1a] hover:bg-[#E55A00]">
                   Voltar para Pedidos
                 </Button>
               </Link>
@@ -130,7 +130,7 @@ function MelhorEnvioCallbackContent() {
                 </Link>
                 <Button 
                   onClick={() => window.location.reload()} 
-                  className="flex-1 bg-[#AE6FFB] hover:bg-[#E55A00]"
+                  className="flex-1 bg-[#1a1a1a] hover:bg-[#E55A00]"
                 >
                   Tentar Novamente
                 </Button>

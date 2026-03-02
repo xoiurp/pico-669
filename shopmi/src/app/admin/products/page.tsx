@@ -458,7 +458,7 @@ export default function ProductsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AE6FFB] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#333] mx-auto"></div>
           <p className="mt-4 text-gray-600">Carregando produtos...</p>
         </div>
       </div>
@@ -500,7 +500,7 @@ export default function ProductsPage() {
             </Button>
             <Button
               onClick={() => router.push('/admin/products/new')}
-              className="bg-[#AE6FFB] hover:bg-[#E55A00] text-white"
+              className="bg-[#1a1a1a] hover:bg-[#E55A00] text-white"
             >
               <Plus className="h-4 w-4 mr-2" />
               Novo Produto
@@ -548,7 +548,7 @@ export default function ProductsPage() {
             {isLoading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="text-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#AE6FFB] mx-auto"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#333] mx-auto"></div>
                   <span className="mt-2 text-gray-600">Carregando produtos...</span>
                 </div>
               </div>

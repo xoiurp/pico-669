@@ -43,6 +43,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
+    "framer-motion": "^12.34.4",
     "graphql": "^16.10.0",
     "iframe-resizer": "^5.4.4",
     "jquery": "^3.7.1",

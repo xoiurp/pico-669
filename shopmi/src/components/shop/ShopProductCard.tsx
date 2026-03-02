@@ -293,7 +293,7 @@ const ShopProductCard: React.FC<ShopProductCardProps> = ({
                       isWhite ? "border-gray-300" : "border-transparent"
                     } ${
                       selectedColor === color
-                        ? "ring-1 ring-offset-1 ring-[#1a1a1a]"
+                        ? "ring-1 ring-offset-1 ring-[#333]"
                         : ""
                     }`}
                     style={{ backgroundColor: color }}

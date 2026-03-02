@@ -79,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div
-      className="group bg-white overflow-visible relative flex flex-col transition-shadow duration-300 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] z-0 hover:z-10"
+      className="group bg-white overflow-hidden relative flex flex-col cursor-pointer transition-shadow duration-300 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -112,7 +112,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               e.stopPropagation();
               setIsFavorite(!isFavorite);
             }}
-            className="pointer-events-auto p-1.5 bg-white/80 hover:bg-white transition-colors"
+            className="pointer-events-auto p-1.5 bg-white/80 hover:bg-white transition-colors cursor-pointer"
             aria-label={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
           >
             <Heart
@@ -144,6 +144,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -158,9 +159,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       {/* Product details */}
-      <div className="pt-3 flex flex-col">
+      <div className="pt-3 pb-12 flex flex-col">
         <Link href={`/product/${handle}`} className="block">
-          <h3 className="text-xs sm:text-sm font-medium text-[#1a1a1a] uppercase tracking-wide hover:text-[#666] transition-colors line-clamp-2 leading-tight">
+          <h3 className="text-xs sm:text-sm font-medium text-[#1a1a1a] uppercase tracking-wide hover:text-[#555] transition-colors line-clamp-2 leading-tight">
             {title}
           </h3>
         </Link>
@@ -201,19 +202,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
       </div>
 
-      {/* Buy button - hover */}
+      {/* Buy button - slides up on hover without overlapping content */}
       <div
-        className={`absolute left-0 right-0 bottom-0 p-3 bg-white transition-all duration-300 ${
+        className={`absolute left-0 right-0 bottom-0 p-3 bg-white border-t border-[#f0f0f0] transition-all duration-300 ${
           isHovered ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'
         }`}
-        style={{
-          boxShadow: isHovered ? '0 -10px 20px rgba(255,255,255,0.95), 0 4px 20px rgba(0,0,0,0.08)' : 'none'
-        }}
       >
         <button
           onClick={handleAddToCart}
           disabled={!availableForSale || totalStock === 0}
-          className={`w-full py-3 text-xs uppercase tracking-[0.15em] font-medium transition-colors
+          className={`w-full py-3 text-xs uppercase tracking-[0.15em] font-medium transition-colors cursor-pointer
             ${!availableForSale || totalStock === 0
               ? 'bg-[#e0e0e0] text-[#999] cursor-not-allowed'
               : 'bg-[#1a1a1a] text-white hover:bg-black'

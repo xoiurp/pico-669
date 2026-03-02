@@ -90,7 +90,7 @@ const Testimonials = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title */}
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-center text-gray-900 mb-12 sm:mb-16">
-          Testimonials
+          Depoimentos
         </h2>
 
         {/* Testimonials Carousel */}
@@ -99,7 +99,7 @@ const Testimonials = () => {
           <button
             onClick={prevSlide}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 z-10 w-11 h-11 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
-            aria-label="Previous"
+            aria-label="Anterior"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 19l-7-7 7-7" />
@@ -109,7 +109,7 @@ const Testimonials = () => {
           <button
             onClick={nextSlide}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 z-10 w-11 h-11 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
-            aria-label="Next"
+            aria-label="Próximo"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" />
@@ -155,7 +155,7 @@ const Testimonials = () => {
                   ? "w-8 h-1 bg-gray-900"
                   : "w-4 h-1 bg-gray-300 hover:bg-gray-400"
               }`}
-              aria-label={`Go to slide ${index + 1}`}
+              aria-label={`Ir para o slide ${index + 1}`}
             />
           ))}
         </div>
