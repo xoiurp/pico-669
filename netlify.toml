@@ -1,0 +1,3 @@
+# Root netlify.toml - points to the shopmi subdirectory
+[build]
+  base = "shopmi"

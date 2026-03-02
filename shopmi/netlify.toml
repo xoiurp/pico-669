@@ -1,5 +1,5 @@
 [build]
-  command = "npm ci && npm run build"
+  command = "npm ci && npm install --no-save lightningcss-linux-x64-gnu@1.29.2 && npm run build"
   publish = ".next"
   # Configuração do scanner de segredos
   secrets_scan_enabled = true

@@ -47,7 +47,13 @@
       "Bash(git ls-tree:*)",
       "Bash(gh api:*)",
       "Bash(git fetch:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(git -C \"F:\\\\nine-co\" remote set-url:*)",
+      "Bash(git -C \"F:\\\\nine-co\" remote -v)",
+      "Bash(git remote set-url:*)",
+      "Bash(git -C \"F:\\\\nine-co\" status)",
+      "Bash(git -C \"F:\\\\nine-co\" push -u origin main)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []
