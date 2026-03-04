@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "../context/CartContext";
-import { AuthProvider } from "../context/AuthContext";
-import ConditionalHeader from "../components/layout/ConditionalHeader";
-import NewFooter from "../components/layout/NewFooter";
-import GlobalCheckoutInterceptor from "@/components/checkout/GlobalCheckoutInterceptor";
-import PageTransition from "../components/layout/PageTransition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,20 +27,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <CartProvider>
-            <div className="flex flex-col min-h-screen">
-              <ConditionalHeader />
-              {/* Mount global interceptor to capture checkout clicks across the app */}
-              <GlobalCheckoutInterceptor />
-              <main className="flex-grow">
-                <PageTransition>{children}</PageTransition>
-              </main>
-            <NewFooter />
-          </div>
-
-        </CartProvider>
-        </AuthProvider>
+        {children}
       </body>
     </html>
   );
