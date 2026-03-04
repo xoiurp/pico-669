@@ -28,6 +28,8 @@
     "ag-grid-react": "^34.1.0",
     "class-variance-authority": "^0.7.1",
     "dotenv": "^16.4.7",
+    "framer-motion": "^12.35.0",
+    "graphql": "^16.10.0",
     "iframe-resizer": "^5.4.4",
     "jquery": "^3.7.1",
     "lucide-react": "^0.505.0",

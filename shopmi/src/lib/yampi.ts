@@ -198,7 +198,7 @@ export function prepareYampiCartPayload(cart: ShopifyCart) {
   const requiresShipping = items.some((i: any) => i.requires_shipping);
 
   const finalPayload = {
-    shop: process.env.YAMPI_SHOP_DOMAIN || process.env.NEXT_PUBLIC_YAMPI_SHOP_DOMAIN || 'pico-996',
+    shop: process.env.YAMPI_SHOP_DOMAIN || process.env.NEXT_PUBLIC_YAMPI_SHOP_DOMAIN || '',
     cart_payload: {
       token: cartToken,
       note: cart.note || '',
