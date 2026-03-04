@@ -276,34 +276,29 @@ const ShopProductCard: React.FC<ShopProductCardProps> = ({
             </span>
           </div>
 
-          {/* Color Swatches */}
-          {parsedColors.length > 0 && (
-            <div className="mt-2 flex items-center gap-1.5">
-              {parsedColors.slice(0, 4).map((color, index) => {
-                const isWhite = color.toLowerCase() === "#ffffff" || color.toLowerCase() === "white";
-                return (
-                  <button
-                    key={index}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setSelectedColor(selectedColor === color ? null : color);
-                    }}
-                    className={`w-5 h-5 rounded-full border transition-all duration-200 ${
-                      isWhite ? "border-gray-300" : "border-transparent"
-                    } ${
-                      selectedColor === color
-                        ? "ring-1 ring-offset-1 ring-[#333]"
-                        : ""
-                    }`}
-                    style={{ backgroundColor: color }}
-                    aria-label={`Selecionar cor ${color}`}
-                  />
-                );
-              })}
-              {parsedColors.length > 4 && (
+          {/* Color Labels */}
+          {colors && colors.length > 0 && (
+            <div className="mt-2 flex items-center gap-1.5 flex-wrap">
+              {colors.slice(0, 4).map((color, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectedColor(selectedColor === color ? null : color);
+                  }}
+                  className={`px-2 py-0.5 text-[10px] uppercase tracking-wider border transition-all duration-200 ${
+                    selectedColor === color
+                      ? "border-[#1a1a1a] text-[#1a1a1a] font-semibold"
+                      : "border-[#e0e0e0] text-[#666] hover:border-[#999]"
+                  }`}
+                >
+                  {color}
+                </button>
+              ))}
+              {colors.length > 4 && (
                 <span className="text-[10px] text-[#999]">
-                  +{parsedColors.length - 4}
+                  +{colors.length - 4}
                 </span>
               )}
             </div>

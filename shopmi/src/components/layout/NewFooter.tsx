@@ -125,7 +125,7 @@ const Footer = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-white text-gray-900 px-6 py-3 text-xs tracking-[0.15em] uppercase font-medium hover:bg-gray-100 transition-colors border-l border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed min-w-[120px] flex items-center justify-center"
+                className="bg-white text-gray-900 px-4 py-3 text-[10px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] uppercase font-medium hover:bg-gray-100 transition-colors border-l border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px] sm:min-w-[120px] flex items-center justify-center whitespace-nowrap"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

@@ -113,7 +113,7 @@ export default function ShippingCalculator() {
           value={cep} // O estado 'cep' agora armazena o valor não mascarado
           onAccept={handleAccept} // Usa onAccept para atualizar o estado
           disabled={isLoading}
-          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-grow"
+          className="flex h-10 w-full rounded-none border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-grow"
           placeholder="Digite seu CEP"
           // Adiciona type="tel" para melhor experiência mobile
           type="tel"
@@ -123,6 +123,7 @@ export default function ShippingCalculator() {
           onClick={calculateShipping}
           disabled={isLoading || !cep || cep.length !== 8} // Valida se tem 8 dígitos
           size="sm" // Botão um pouco menor
+          className="rounded-none"
         >
           {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Calcular'}
         </Button>

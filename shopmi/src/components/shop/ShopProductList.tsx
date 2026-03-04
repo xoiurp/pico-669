@@ -181,8 +181,8 @@ const ShopProductList: React.FC<ShopProductListProps> = ({
 
   return (
     <div>
-      {/* Grid: 2 cols mobile, 2 cols tablet, 4 cols desktop */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+      {/* Grid: 1 col mobile, 2 cols sm, 3 cols md, 4 cols desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-4 md:gap-5 lg:gap-6">
         {products.map((product) => {
           const colors = extractColors(product);
           const availableForSale = product.variants?.edges.some(

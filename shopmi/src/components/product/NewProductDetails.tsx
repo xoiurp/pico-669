@@ -271,12 +271,51 @@ const NewProductDetails: React.FC<NewProductDetailsProps> = ({
     setCartSheetOpen(true);
   }, [selectedVariant, product, quantity, images, addToCart, setCartSheetOpen]);
 
-  const handleBuyNow = useCallback(() => {
-    handleAddToCart();
-    setTimeout(() => {
-      window.location.href = "/checkout";
-    }, 300);
-  }, [handleAddToCart]);
+  const [buyNowLoading, setBuyNowLoading] = useState(false);
+
+  const handleBuyNow = useCallback(async () => {
+    if (!selectedVariant) return;
+
+    setBuyNowLoading(true);
+    try {
+      const items = [
+        {
+          variantId: selectedVariant.id,
+          quantity: quantity,
+        },
+      ];
+
+      const res = await fetch("/api/checkout/yampi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items }),
+      });
+
+      const data = await res.json();
+
+      const redirectUrl =
+        data.checkout_direct_url ||
+        data.checkout_url ||
+        data.redirect_url ||
+        data.url ||
+        data.data?.checkout_direct_url ||
+        data.data?.checkout_url ||
+        data.data?.url;
+
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else {
+        console.error("[BuyNow] No redirect URL returned", data);
+        // Fallback: add to cart and open drawer
+        handleAddToCart();
+      }
+    } catch (error) {
+      console.error("[BuyNow] Error:", error);
+      handleAddToCart();
+    } finally {
+      setBuyNowLoading(false);
+    }
+  }, [selectedVariant, quantity, handleAddToCart]);
 
   // Get color image for swatch
   const getColorImage = (colorName: string) => {
@@ -331,7 +370,7 @@ const NewProductDetails: React.FC<NewProductDetailsProps> = ({
     <div className="flex flex-col h-full lg:py-8">
       {/* Stock Badge */}
       {isLowStock && (
-        <Badge className="w-fit mb-4 bg-[#1a1a1a] hover:bg-[#1a1a1a] text-white text-[10px] sm:text-xs tracking-wider uppercase font-semibold px-3 py-1.5 rounded-sm">
+        <Badge className="w-fit mb-4 bg-[#1a1a1a] hover:bg-[#1a1a1a] text-white text-[10px] sm:text-xs tracking-wider uppercase font-semibold px-3 py-1.5 rounded-none">
           ÚLTIMAS UNIDADES
         </Badge>
       )}
@@ -528,11 +567,11 @@ const NewProductDetails: React.FC<NewProductDetailsProps> = ({
       {/* Buy It Now Button - Full Width */}
       <Button
         onClick={handleBuyNow}
-        disabled={!canAddToCart}
+        disabled={!canAddToCart || buyNowLoading}
         variant="outline"
         className="w-full h-12 border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white text-xs uppercase tracking-widest font-medium rounded-none transition-all mb-6 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Comprar agora
+        {buyNowLoading ? "Redirecionando..." : "Comprar agora"}
       </Button>
 
       {/* Shipping Calculator */}
@@ -551,7 +590,7 @@ const NewProductDetails: React.FC<NewProductDetailsProps> = ({
       <div className="space-y-3 mb-6">
         <div className="flex items-center gap-3 text-sm text-[#666]">
           <Check className="w-4 h-4 text-[#1a1a1a]" />
-          <span>Entrega e frete grátis</span>
+          <span>Frete grátis a partir de R$299</span>
         </div>
         <div className="flex items-center gap-3 text-sm text-[#666]">
           <Check className="w-4 h-4 text-[#1a1a1a]" />
@@ -563,11 +602,10 @@ const NewProductDetails: React.FC<NewProductDetailsProps> = ({
       <div className="border-t border-[#e0e0e0] pt-5 mb-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-sm text-[#1a1a1a] font-medium mb-1">
-              <Store className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-[#1a1a1a] font-medium">
+              <Store className="w-4 h-4 flex-shrink-0" />
               <span>Retirada disponível na loja</span>
             </div>
-            <p className="text-xs text-[#666]">Geralmente pronto em 24 horas</p>
           </div>
           <Link
             href="#store-info"
@@ -599,9 +637,9 @@ const NewProductDetails: React.FC<NewProductDetailsProps> = ({
           </span>
         </div>
         <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 border border-[#e0e0e0]">
-          <Truck className="w-4 h-4 text-[#1a1a1a] mb-1.5" />
+          <RefreshCw className="w-4 h-4 text-[#1a1a1a] mb-1.5" />
           <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-[#1a1a1a] font-medium text-center leading-tight">
-            Frete grátis
+            Trocas e devoluções
           </span>
         </div>
       </div>

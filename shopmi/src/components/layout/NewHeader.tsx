@@ -69,11 +69,14 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
   const router = useRouter();
   const { totalItems, isCartSheetOpen, setCartSheetOpen } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const lastScrollY = useRef(0);
   const [featuredCollections, setFeaturedCollections] = useState<Collection[]>([]);
   const [allCollections, setAllCollections] = useState<Collection[]>([]);
 
@@ -100,13 +103,31 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
     fetchCollections();
   }, []);
 
-  // Handle scroll effect
+  // Handle scroll effect: hide on scroll down, show on scroll up
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentY = window.scrollY;
+      setIsScrolled(currentY > 50);
+
+      // Only hide/show after scrolling past the header height
+      const headerHeight = headerRef.current?.offsetHeight || 100;
+      if (currentY > headerHeight) {
+        // Scrolling down → hide
+        if (currentY > lastScrollY.current + 5) {
+          setIsHidden(true);
+        }
+        // Scrolling up → show
+        else if (currentY < lastScrollY.current - 5) {
+          setIsHidden(false);
+        }
+      } else {
+        setIsHidden(false);
+      }
+
+      lastScrollY.current = currentY;
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -164,7 +185,12 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
       : "text-white";
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
+    <header
+      ref={headerRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
+        isHidden ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       {/* Top Bar - Always visible */}
       <div
         className={`transition-all duration-300 ${
