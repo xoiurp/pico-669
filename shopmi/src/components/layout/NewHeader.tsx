@@ -287,8 +287,9 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
                       </svg>
                     </button>
                   </SheetTrigger>
-                  <SheetContent side="left" className="w-[300px] p-0">
-                    <SheetHeader className="p-6 border-b">
+                  <SheetContent side="left" className="w-full max-w-sm p-0 flex flex-col">
+                    {/* Header */}
+                    <SheetHeader className="px-6 py-4 border-b border-gray-200 flex flex-row items-center justify-between">
                       <SheetTitle>
                         <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
                           <Image
@@ -302,30 +303,77 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
                         </Link>
                       </SheetTitle>
                     </SheetHeader>
-                    <div className="p-6">
-                      <nav className="space-y-4">
+
+                    {/* Category List */}
+                    <div className="flex-1 overflow-y-auto px-6 py-6">
+                      <nav className="space-y-1">
+                        {/* Destaques */}
                         <Link
-                          href="/"
+                          href="/shop/novidade"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block text-sm font-medium text-[#1a1a1a] hover:text-[#666]"
+                          className="block py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
                         >
-                          Home
+                          Novidades
                         </Link>
                         <Link
-                          href="/shop"
+                          href="/shop/sale"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block text-sm font-medium text-[#1a1a1a] hover:text-[#666]"
+                          className="block py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
                         >
-                          Shop
+                          Sale
                         </Link>
+                        <Link
+                          href="/shop/mais-vendidos"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
+                        >
+                          Mais Vendidos
+                        </Link>
+
+                        {/* Separator */}
+                        <div className="border-t border-gray-200 my-3" />
+
+                        {/* Dynamic Collections */}
+                        {allCollections.slice(0, 10).map((collection) => (
+                          <Link
+                            key={collection.id}
+                            href={`/shop/${collection.handle}`}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="flex items-center justify-between py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
+                          >
+                            {collection.title}
+                            <svg className="w-5 h-5 text-[#999]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </Link>
+                        ))}
+
+                        {/* Separator */}
+                        <div className="border-t border-gray-200 my-3" />
+
+                        {/* Contato */}
                         <Link
                           href="/contato"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block text-sm font-medium text-[#1a1a1a] hover:text-[#666]"
+                          className="block py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
                         >
                           Contato
                         </Link>
                       </nav>
+                    </div>
+
+                    {/* Footer - Account */}
+                    <div className="border-t border-gray-200 px-6 py-4">
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-3 text-sm text-[#666] hover:text-[#1a1a1a] transition-colors"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        Entrar
+                      </Link>
                     </div>
                   </SheetContent>
                 </Sheet>
