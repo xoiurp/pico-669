@@ -25,6 +25,7 @@ const ShopProductList: React.FC<ShopProductListProps> = ({
   const [pageInfo, setPageInfo] = useState<PageInfo>(initialPageInfo);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [mobileColumns, setMobileColumns] = useState<1 | 2>(2);
 
   const observer = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -181,8 +182,39 @@ const ShopProductList: React.FC<ShopProductListProps> = ({
 
   return (
     <div>
-      {/* Grid: 1 col mobile, 2 cols sm, 3 cols md, 4 cols desktop */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-4 md:gap-5 lg:gap-6">
+      {/* Mobile grid toggle */}
+      <div className="flex sm:hidden items-center justify-end gap-2 mb-4">
+        <button
+          onClick={() => setMobileColumns(1)}
+          className={`w-9 h-9 flex items-center justify-center border transition-colors ${
+            mobileColumns === 1
+              ? "border-[#1a1a1a] text-[#1a1a1a]"
+              : "border-[#e0e0e0] text-[#999] hover:border-[#999]"
+          }`}
+          aria-label="1 coluna"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="1" strokeWidth={1.5} />
+          </svg>
+        </button>
+        <button
+          onClick={() => setMobileColumns(2)}
+          className={`w-9 h-9 flex items-center justify-center border transition-colors ${
+            mobileColumns === 2
+              ? "border-[#1a1a1a] text-[#1a1a1a]"
+              : "border-[#e0e0e0] text-[#999] hover:border-[#999]"
+          }`}
+          aria-label="2 colunas"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7.5" height="18" rx="1" strokeWidth={1.5} />
+            <rect x="13.5" y="3" width="7.5" height="18" rx="1" strokeWidth={1.5} />
+          </svg>
+        </button>
+      </div>
+
+      {/* Grid */}
+      <div className={`grid ${mobileColumns === 1 ? "grid-cols-1" : "grid-cols-2"} sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-4 md:gap-5 lg:gap-6`}>
         {products.map((product) => {
           const colors = extractColors(product);
           const availableForSale = product.variants?.edges.some(
