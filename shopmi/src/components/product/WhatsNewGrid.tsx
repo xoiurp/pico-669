@@ -226,7 +226,7 @@ const WhatsNewGrid: React.FC<WhatsNewGridProps> = ({ collections }) => {
                   href={activeHandle ? `/shop/${activeHandle}` : "/shop"}
                   className="inline-block text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gray-900 border-b border-gray-900 hover:border-gray-500 hover:text-gray-500 transition-colors pb-0.5"
                 >
-                  View All
+                  Ver Tudo
                 </Link>
               </div>
             </motion.div>
