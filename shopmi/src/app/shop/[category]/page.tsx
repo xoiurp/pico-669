@@ -210,7 +210,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       />
 
       {/* Main Content */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Filters Bar */}
         <div className="mb-6 pb-6 border-b border-[#e0e0e0] space-y-4">
           {/* Row 1: Filter button + Results count + Sort */}
