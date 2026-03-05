@@ -82,7 +82,7 @@ const WhatsNewGrid: React.FC<WhatsNewGridProps> = ({ collections }) => {
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
           <p className="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-gray-500 mb-4">
-            What&apos;s New
+            Mais vendidos
           </p>
 
           {/* Tabs */}

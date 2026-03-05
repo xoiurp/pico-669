@@ -42,7 +42,7 @@ const ContemporaryBanner: React.FC<ContemporaryBannerProps> = ({ collection }) =
             href={collection?.handle ? `/shop/${collection.handle}` : "/shop"}
             className="px-8 py-3 bg-white text-black text-[11px] sm:text-xs tracking-[0.2em] uppercase font-medium hover:bg-[#f5f5f5] transition-colors"
           >
-            Descubra mais
+            Shop
           </Link>
         </div>
       </div>
