@@ -248,7 +248,7 @@ const ItemOfTheWeek: React.FC<ItemOfTheWeekProps> = ({ product }) => {
                       key={size}
                       onClick={() => setSelectedSize(size)}
                       type="button"
-                      className={`min-w-[40px] h-10 px-3 text-xs font-medium border rounded-sm transition-colors cursor-pointer ${
+                      className={`min-w-[40px] h-10 px-3 text-xs font-medium border transition-colors cursor-pointer ${
                         selectedSize === size
                           ? "border-[#1a1a1a] text-[#1a1a1a]"
                           : "border-[#e0e0e0] text-[#666] hover:border-[#999]"
@@ -267,20 +267,20 @@ const ItemOfTheWeek: React.FC<ItemOfTheWeekProps> = ({ product }) => {
                 <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#1a1a1a] block mb-3">
                   Cor {selectedColor}
                 </span>
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   {availableColors.map((color) => (
                     <button
                       key={color.name}
                       onClick={() => setSelectedColor(color.name)}
                       type="button"
-                      className={`relative w-7 h-7 rounded-full border-2 transition-all cursor-pointer ${
+                      className={`min-w-[40px] h-10 px-3 text-xs font-medium border transition-colors cursor-pointer ${
                         selectedColor === color.name
-                          ? "border-[#1a1a1a] scale-110"
-                          : "border-[#d0d0d0] hover:scale-105"
+                          ? "border-[#1a1a1a] text-[#1a1a1a]"
+                          : "border-[#e0e0e0] text-[#666] hover:border-[#999]"
                       }`}
-                      style={{ backgroundColor: color.value }}
-                      aria-label={color.name}
-                    />
+                    >
+                      {color.name}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -290,7 +290,7 @@ const ItemOfTheWeek: React.FC<ItemOfTheWeekProps> = ({ product }) => {
             <div className="mt-auto space-y-3">
               <div className="flex items-center gap-3">
                 {/* Quantity Selector - pill */}
-                <div className="flex items-center border border-[#e0e0e0] rounded-full flex-shrink-0">
+                <div className="flex items-center border border-[#e0e0e0] flex-shrink-0">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     type="button"
@@ -314,7 +314,7 @@ const ItemOfTheWeek: React.FC<ItemOfTheWeekProps> = ({ product }) => {
                 <button
                   onClick={handleAddToCart}
                   type="button"
-                  className="flex-1 py-3.5 bg-[#1a1a1a] text-white text-xs sm:text-sm tracking-[0.15em] uppercase font-medium hover:bg-black transition-colors rounded-full cursor-pointer"
+                  className="flex-1 py-3.5 bg-[#1a1a1a] text-white text-xs sm:text-sm tracking-[0.15em] uppercase font-medium hover:bg-black transition-colors cursor-pointer"
                 >
                   Adicionar ao carrinho
                 </button>
@@ -327,7 +327,7 @@ const ItemOfTheWeek: React.FC<ItemOfTheWeekProps> = ({ product }) => {
                   handleAddToCart();
                   setTimeout(() => { window.location.href = "/checkout"; }, 300);
                 }}
-                className="w-full py-3.5 border border-[#1a1a1a] text-[#1a1a1a] text-xs sm:text-sm tracking-[0.15em] uppercase font-medium hover:bg-[#1a1a1a] hover:text-white transition-colors rounded-full cursor-pointer"
+                className="w-full py-3.5 border border-[#1a1a1a] text-[#1a1a1a] text-xs sm:text-sm tracking-[0.15em] uppercase font-medium hover:bg-[#1a1a1a] hover:text-white transition-colors cursor-pointer"
               >
                 Comprar agora
               </button>

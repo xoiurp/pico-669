@@ -286,36 +286,37 @@ export default async function ProductPage({
       )}
 
       {/* Specifications Section - Full width */}
-      {product.metafields && product.metafields.length > 0 && (
-        <div className="w-full border-t border-[#e0e0e0]">
-          <div className="px-4 sm:px-6 lg:px-8 xl:px-12 py-12">
-            <div className="max-w-[1400px] mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {product.metafields
-                  .filter(
-                    (metafield) =>
-                      metafield &&
-                      metafield.value &&
-                      metafield.value.trim() !== "" &&
-                      (metafield.namespace === "custom" ||
-                        metafield.namespace === "specs") &&
-                      ![
-                        "use custom rem base",
-                        "rem base font size",
-                        "html mobile",
-                        "mobile font size",
-                        "mobile html url",
-                        "tbl tam",
-                        "tbl-tam",
-                      ].includes(
-                        metafield.key
-                          .toLowerCase()
-                          .replace(/[._-]/g, " ")
-                          .replace(/\s+/g, " ")
-                          .trim()
-                      )
-                  )
-                  .map((metafield) => (
+      {(() => {
+        const visibleMetafields = (product.metafields || []).filter(
+          (metafield) =>
+            metafield &&
+            metafield.value &&
+            metafield.value.trim() !== "" &&
+            (metafield.namespace === "custom" ||
+              metafield.namespace === "specs") &&
+            ![
+              "use custom rem base",
+              "rem base font size",
+              "html mobile",
+              "mobile font size",
+              "mobile html url",
+              "tbl tam",
+              "tbl-tam",
+            ].includes(
+              metafield.key
+                .toLowerCase()
+                .replace(/[._-]/g, " ")
+                .replace(/\s+/g, " ")
+                .trim()
+            )
+        );
+        if (visibleMetafields.length === 0) return null;
+        return (
+          <div className="w-full border-t border-[#e0e0e0]">
+            <div className="px-4 sm:px-6 lg:px-8 xl:px-12 py-12">
+              <div className="max-w-[1400px] mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {visibleMetafields.map((metafield) => (
                     <div
                       key={`${metafield.namespace}-${metafield.key}`}
                       className="flex flex-col sm:flex-row py-3 border-b border-[#e0e0e0]"
@@ -330,11 +331,12 @@ export default async function ProductPage({
                       </span>
                     </div>
                   ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Related Products Section */}
       <RelatedProducts products={relatedProducts} />

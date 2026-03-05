@@ -13,14 +13,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
 import CartDrawerContent from "../cart/CartDrawer";
 import logoIcon from "../../assets/images/logo-pico.svg";
 
@@ -169,13 +161,6 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
     : isScrolled
       ? "text-gray-900"
       : "text-white";
-
-  // Helper: hover/focus overrides for NavigationMenuTrigger
-  // The base navigationMenuTriggerStyle has hardcoded hover:text-white and focus:text-white
-  // On light backgrounds, we need to override these to keep text dark on hover/focus
-  const navTriggerHoverOverride = invertColors || isScrolled
-    ? "hover:text-gray-900 focus:text-gray-900 hover:bg-gray-100/50"
-    : "hover:text-white focus:text-white hover:bg-white/10";
 
   // Helper: text color for top bar (inherits from parent container's text color)
   const topBarTextColor = isScrolled
@@ -334,13 +319,6 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
                           Shop
                         </Link>
                         <Link
-                          href="/faq"
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="block text-sm font-medium text-[#1a1a1a] hover:text-[#666]"
-                        >
-                          FAQ
-                        </Link>
-                        <Link
                           href="/contato"
                           onClick={() => setMobileMenuOpen(false)}
                           className="block text-sm font-medium text-[#1a1a1a] hover:text-[#666]"
@@ -354,196 +332,37 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
               </div>
 
               {/* Desktop Navigation - Only show on xl+ */}
-              <nav className="hidden xl:flex items-center gap-4 2xl:gap-8">
-                <NavigationMenu className="relative z-[60]" onValueChange={(val) => setMegaMenuOpen(val !== "")}>
-                  <NavigationMenuList className="gap-3 2xl:gap-6">
-                    <NavigationMenuItem>
-                      <Link
-                        href="/"
-                        className={`text-xs tracking-widest uppercase font-medium transition-colors hover:opacity-70 whitespace-nowrap ${navTextColor}`}
-                      >
-                        Home
-                      </Link>
-                    </NavigationMenuItem>
+              <nav className="hidden xl:flex items-center gap-6 2xl:gap-10">
+                <Link
+                  href="/"
+                  className={`text-xs tracking-widest uppercase font-medium transition-colors hover:opacity-70 whitespace-nowrap ${navTextColor}`}
+                >
+                  Home
+                </Link>
 
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger
-                        className={`text-xs tracking-widest uppercase font-medium bg-transparent focus:bg-transparent data-[state=open]:bg-transparent transition-colors whitespace-nowrap ${navTextColor} ${navTriggerHoverOverride}`}
-                      >
-                        Shop
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <div className="w-[900px] p-8">
-                          <div className="grid grid-cols-4 gap-8">
-                            {/* Featured Column */}
-                            <div>
-                              <h3 className="text-sm font-semibold mb-4 uppercase tracking-wider text-[#1a1a1a]">
-                                Destaques
-                              </h3>
-                              <ul className="space-y-3">
-                                <li>
-                                  <Link
-                                    href="/shop/new"
-                                    className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors"
-                                  >
-                                    Novidades
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="/shop/bestsellers"
-                                    className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors"
-                                  >
-                                    Mais Vendidos
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="/shop/basics"
-                                    className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors"
-                                  >
-                                    Básicos
-                                  </Link>
-                                </li>
-                              </ul>
-                            </div>
+                <button
+                  onMouseEnter={() => setMegaMenuOpen(true)}
+                  onClick={() => setMegaMenuOpen((prev) => !prev)}
+                  className={`text-xs tracking-widest uppercase font-medium transition-colors hover:opacity-70 whitespace-nowrap flex items-center gap-1 ${navTextColor}`}
+                >
+                  Shop
+                  <svg
+                    className={`w-3 h-3 transition-transform duration-200 ${megaMenuOpen ? "rotate-180" : ""}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
 
-                            {/* Categories Column - Real Collections */}
-                            <div>
-                              <h3 className="text-sm font-semibold mb-4 uppercase tracking-wider text-[#1a1a1a]">
-                                Categorias
-                              </h3>
-                              <ul className="space-y-3">
-                                {allCollections.slice(0, 8).map((collection) => (
-                                  <li key={collection.id}>
-                                    <Link
-                                      href={`/shop/${collection.handle}`}
-                                      className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors"
-                                    >
-                                      {collection.title}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            {/* Collection Images */}
-                            {featuredCollections.map((collection, index) => (
-                              <div key={collection.id} className="relative">
-                                <Link href={`/shop/${collection.handle}`} className="block group">
-                                  <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-                                    {collection.image ? (
-                                      <Image
-                                        src={collection.image.transformedSrc || collection.image.originalSrc || ""}
-                                        alt={collection.image.altText || collection.title}
-                                        fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                        sizes="200px"
-                                      />
-                                    ) : (
-                                      <div className="w-full h-full bg-[#f5f5f5] flex items-center justify-center">
-                                        <span className="text-[#999] text-sm">{collection.title}</span>
-                                      </div>
-                                    )}
-                                    {/* Overlay with text */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                                      <div className="absolute bottom-4 left-4 right-4">
-                                        <span className="text-[10px] uppercase tracking-wider text-white/80">
-                                          {index === 0 ? "Destaque" : "Verão 26"}
-                                        </span>
-                                        <h4 className="text-lg font-medium text-white mt-1">
-                                          {index === 0 ? "Coleção Exclusiva" : "Prepare-se para o verão"}
-                                        </h4>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Link>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger
-                      className={`text-xs tracking-widest uppercase font-medium bg-transparent focus:bg-transparent data-[state=open]:bg-transparent transition-colors whitespace-nowrap ${navTextColor} ${navTriggerHoverOverride}`}
-                    >
-                      Páginas
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <div className="w-[300px] p-6">
-                        <ul className="space-y-3">
-                          <li>
-                            <Link
-                              href="/faq"
-                              className="text-sm text-[#666] hover:text-[#1a1a1a]"
-                            >
-                              FAQ
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/envio"
-                              className="text-sm text-[#666] hover:text-[#1a1a1a]"
-                            >
-                              Envio e Entrega
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/politica-de-devolucao"
-                              className="text-sm text-[#666] hover:text-[#1a1a1a]"
-                            >
-                              Política de Devolução
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger
-                      className={`text-xs tracking-widest uppercase font-medium bg-transparent focus:bg-transparent data-[state=open]:bg-transparent transition-colors whitespace-nowrap ${navTextColor} ${navTriggerHoverOverride}`}
-                    >
-                      Destaques
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <div className="w-[300px] p-6">
-                        <ul className="space-y-3">
-                          <li>
-                            <span className="text-sm text-[#666]">
-                              Lançamentos
-                            </span>
-                          </li>
-                          <li>
-                            <span className="text-sm text-[#666]">
-                              Mais Vendidos
-                            </span>
-                          </li>
-                          <li>
-                            <span className="text-sm text-[#666]">
-                              Ofertas Especiais
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <Link
-                      href="/contato"
-                      className={`text-xs tracking-widest uppercase font-medium transition-colors hover:opacity-70 whitespace-nowrap ${navTextColor}`}
-                    >
-                      Contato
-                    </Link>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-
-              </NavigationMenu>
-            </nav>
+                <Link
+                  href="/contato"
+                  className={`text-xs tracking-widest uppercase font-medium transition-colors hover:opacity-70 whitespace-nowrap ${navTextColor}`}
+                >
+                  Contato
+                </Link>
+              </nav>
             </div>
 
             {/* Logo - Center */}
@@ -721,12 +540,111 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
         </>
       )}
 
-      {/* Mega Menu Backdrop Overlay */}
+      {/* Full-width Mega Menu */}
       {megaMenuOpen && !searchOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-[-1] animate-in fade-in duration-200"
-          aria-hidden="true"
-        />
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 z-[-1]"
+            aria-hidden="true"
+            onClick={() => setMegaMenuOpen(false)}
+          />
+          {/* Mega Menu Panel */}
+          <div
+            className="absolute left-0 right-0 top-full bg-white shadow-lg border-t border-gray-200 z-[60]"
+            onMouseLeave={() => setMegaMenuOpen(false)}
+          >
+            <div className="container mx-auto px-8 py-10">
+              <div className="grid grid-cols-4 gap-12">
+                {/* Destaques Column */}
+                <div>
+                  <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-[#1a1a1a]">
+                    Destaques
+                  </h3>
+                  <ul className="space-y-3">
+                    <li>
+                      <Link href="/shop/sale" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors uppercase tracking-wide">
+                        Sale
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/mais-vendidos" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors uppercase tracking-wide">
+                        Mais Vendidos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/novidade" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors uppercase tracking-wide">
+                        Novidade
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Categorias Column */}
+                <div>
+                  <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-[#1a1a1a]">
+                    Categorias
+                  </h3>
+                  <ul className="space-y-3">
+                    {allCollections.slice(0, 8).map((collection) => (
+                      <li key={collection.id}>
+                        <Link
+                          href={`/shop/${collection.handle}`}
+                          onClick={() => setMegaMenuOpen(false)}
+                          className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors uppercase tracking-wide"
+                        >
+                          {collection.title}
+                        </Link>
+                      </li>
+                    ))}
+                    <li>
+                      <Link
+                        href="/shop"
+                        onClick={() => setMegaMenuOpen(false)}
+                        className="text-sm font-semibold text-[#1a1a1a] hover:opacity-70 transition-colors uppercase tracking-wide"
+                      >
+                        Shop All
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Featured Collection Images */}
+                {featuredCollections.slice(0, 2).map((collection) => (
+                  <div key={collection.id}>
+                    <Link
+                      href={`/shop/${collection.handle}`}
+                      onClick={() => setMegaMenuOpen(false)}
+                      className="block group"
+                    >
+                      <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+                        {collection.image ? (
+                          <Image
+                            src={collection.image.transformedSrc || collection.image.originalSrc || ""}
+                            alt={collection.image.altText || collection.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-width: 1280px) 25vw, 300px"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-[#e5e5e5] flex items-center justify-center">
+                            <div className="text-center">
+                              <p className="text-sm text-[#666]">Imagem da coleção</p>
+                              <p className="text-sm font-medium text-[#1a1a1a] mt-1">{collection.title}</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <p className="mt-3 text-sm font-medium text-[#1a1a1a] group-hover:underline">
+                        {collection.title}
+                      </p>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </header>
   );

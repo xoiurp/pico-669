@@ -1266,16 +1266,27 @@ export async function getRelatedProducts(
 ): Promise<Product[]> {
   const limit = options?.limit || 8;
   const excludeType = options?.productType?.toLowerCase().trim() || "";
+  const excludeCollection = options?.collectionHandle?.toLowerCase().trim() || "";
 
-  // Helper: verifica se um produto é da mesma categoria/tipo que o atual
+  // Helper: verifica se um produto é da mesma categoria/tipo ou coleção que o atual
   const isSameCategory = (p: Product): boolean => {
-    if (!excludeType) return false;
-    const pType = (p.productType || "").toLowerCase().trim();
-    if (!pType) return false;
-    // Match exato ou parcial (ex: "Camiseta" vs "Camisetas")
-    return pType === excludeType ||
-      pType.startsWith(excludeType) ||
-      excludeType.startsWith(pType);
+    // Check by productType
+    if (excludeType) {
+      const pType = (p.productType || "").toLowerCase().trim();
+      if (pType && (
+        pType === excludeType ||
+        pType.startsWith(excludeType) ||
+        excludeType.startsWith(pType)
+      )) return true;
+    }
+    // Check by collection handle
+    if (excludeCollection && p.collections?.edges) {
+      const hasMatchingCollection = p.collections.edges.some(
+        (edge) => edge.node.handle?.toLowerCase().trim() === excludeCollection
+      );
+      if (hasMatchingCollection) return true;
+    }
+    return false;
   };
 
   // 1. Busca recomendações nativas do Shopify (filtrando mesma categoria)
@@ -1320,6 +1331,13 @@ export async function getRelatedProducts(
         options {
           name
           values
+        }
+        collections(first: 5) {
+          edges {
+            node {
+              handle
+            }
+          }
         }
         images(first: 2) {
           edges {

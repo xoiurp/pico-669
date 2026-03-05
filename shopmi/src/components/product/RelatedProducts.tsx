@@ -30,8 +30,8 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
 
   return (
     <div className="w-full border-t border-[#e0e0e0]">
-      <div className="px-4 sm:px-6 lg:px-8 xl:px-12 py-12">
-        <div className="max-w-[1400px] mx-auto">
+      <div className="px-4 sm:px-6 lg:px-8 py-12">
+        <div>
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-lg sm:text-xl font-semibold text-[#1a1a1a] uppercase tracking-wider">

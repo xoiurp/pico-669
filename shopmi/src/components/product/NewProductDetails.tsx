@@ -590,7 +590,7 @@ const NewProductDetails: React.FC<NewProductDetailsProps> = ({
       <div className="space-y-3 mb-6">
         <div className="flex items-center gap-3 text-sm text-[#666]">
           <Check className="w-4 h-4 text-[#1a1a1a]" />
-          <span>Frete grátis a partir de R$299</span>
+          <span>Frete grátis a partir de R$499</span>
         </div>
         <div className="flex items-center gap-3 text-sm text-[#666]">
           <Check className="w-4 h-4 text-[#1a1a1a]" />
