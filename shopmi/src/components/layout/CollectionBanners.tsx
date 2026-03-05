@@ -89,7 +89,7 @@ const CollectionBanners: React.FC<CollectionBannersProps> = ({ collections }) =>
             FALL '26 collection DROP1
           </h3>
           <button className="mt-8 px-6 py-3 border border-white/80 text-[10px] sm:text-xs tracking-[0.2em] uppercase font-medium hover:bg-white hover:text-black transition-all duration-300">
-            Lookbook
+            Shop
           </button>
         </div>
       </Link>
