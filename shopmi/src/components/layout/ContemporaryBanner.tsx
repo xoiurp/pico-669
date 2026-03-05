@@ -33,7 +33,7 @@ const ContemporaryBanner: React.FC<ContemporaryBannerProps> = ({ collection }) =
         {/* Right - Content */}
         <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-8 sm:py-16 lg:px-16 lg:py-20 text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white tracking-tight mb-4">
-            Clássico encontra o contemporâneo
+            New Drop Singapura Disponível
           </h2>
           <p className="text-sm sm:text-base text-[#999] max-w-md mb-8 leading-relaxed">
             Redefina estilos atemporais com um toque moderno — explore a Coleção Heritage e o Future Edit.
