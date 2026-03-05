@@ -37,11 +37,10 @@ const CollectionBanners: React.FC<CollectionBannersProps> = ({ collections }) =>
 
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6">
             <h3 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight">
-              {topCollections[0]?.title || "Clássicos"}
-              <span className="italic font-normal"> atemporais</span>
+              New Drop Class
             </h3>
             <span className="mt-4 text-[10px] sm:text-xs tracking-[0.3em] uppercase border-b border-white/70 pb-1 hover:border-white transition-colors">
-              Explorar
+              Shop
             </span>
           </div>
         </Link>
