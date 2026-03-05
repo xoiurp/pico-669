@@ -85,11 +85,8 @@ const CollectionBanners: React.FC<CollectionBannersProps> = ({ collections }) =>
         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
 
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-tight max-w-3xl leading-tight">
-            A marca cria roupas para fazer{" "}
-            <span className="block sm:inline">
-              todos se sentirem <span className="italic font-normal">únicos</span>
-            </span>
+          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-tight max-w-3xl leading-tight uppercase">
+            FALL '26 collection DROP1
           </h3>
           <button className="mt-8 px-6 py-3 border border-white/80 text-[10px] sm:text-xs tracking-[0.2em] uppercase font-medium hover:bg-white hover:text-black transition-all duration-300">
             Lookbook
