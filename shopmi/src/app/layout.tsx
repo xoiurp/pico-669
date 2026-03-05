@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   title: "PICO",
   description: "PICO - Sua loja online com os melhores produtos.",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
   },
 };
 
