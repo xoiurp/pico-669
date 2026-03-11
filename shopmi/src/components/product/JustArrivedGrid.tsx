@@ -78,7 +78,7 @@ const JustArrivedGrid: React.FC<JustArrivedGridProps> = ({ products }) => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-gray-900">
-            Acabou de chegar
+            Novidades
           </h2>
 
           <div className="flex items-center gap-4">
