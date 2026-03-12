@@ -25,7 +25,7 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4">
         {/* Main Content - Bottom aligned */}
-        <div className="mt-auto mb-24 sm:mb-32 md:mb-40 animate-fade-in">
+        <div className="mt-auto mb-32 sm:mb-32 md:mb-40 animate-fade-in">
           {/* Main Title */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-4 sm:mb-6">
             SALE ATÉ 50% OFF
