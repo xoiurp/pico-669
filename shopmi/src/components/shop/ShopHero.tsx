@@ -20,7 +20,7 @@ const ShopHero: React.FC<ShopHeroProps> = ({
     { label: "HOME", href: "/" },
     { label: "NEW COLLECTION", href: "/shop" },
   ],
-  backgroundImage = "/hero-section.webp",
+  backgroundImage = "/assets/images/banner-hero-section 1.webp",
 }) => {
   return (
     <section className="relative w-full min-h-[500px] md:min-h-[580px] lg:min-h-[620px] flex items-center justify-center overflow-hidden bg-[#0a0a0a] pt-[100px] md:pt-[120px]">
@@ -28,7 +28,7 @@ const ShopHero: React.FC<ShopHeroProps> = ({
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${backgroundImage})`,
+          backgroundImage: `url(${encodeURI(backgroundImage)})`,
         }}
       >
         {/* Dark overlay for text readability */}

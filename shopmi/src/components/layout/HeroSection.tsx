@@ -10,7 +10,7 @@ const HeroSection = () => {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/hero-section.webp"
+          src="/assets/images/banner-hero-section 1.webp"
           alt="Banner principal PICO - Coleção Verão 2026"
           fill
           priority
@@ -26,15 +26,17 @@ const HeroSection = () => {
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4">
         {/* Main Content - Bottom aligned */}
         <div className="mt-auto mb-24 sm:mb-32 md:mb-40 animate-fade-in">
-          {/* Subtitle */}
-          <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase mb-4 sm:mb-6 opacity-90">
-            Peças exclusivas Verão 26
-          </p>
-
           {/* Main Title */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-8 sm:mb-10">
-            Bold by design
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-4 sm:mb-6">
+            SALE ATÉ 50% OFF
           </h1>
+
+          {/* Subtitle */}
+          <p className="text-sm sm:text-base md:text-lg tracking-[0.2em] uppercase mb-8 sm:mb-10 opacity-90">
+            FRETE GRÁTIS EM COMPRAS ACIMA DE R$500
+            <br />
+            6X SEM JUROS
+          </p>
 
           {/* CTA Button */}
           <Link
