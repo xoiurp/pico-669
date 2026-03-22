@@ -4,6 +4,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Collection } from "../../lib/shopify";
+import leftImage from "../../assets/images/CASSIOANDREASI-4.jpg 1.webp";
+import rightImage from "../../assets/images/CASSIOANDREASI-13 .jpg 1.webp";
+import bottomLeftImage from "../../assets/images/CASSIOANDREASI-27.jpg 1.webp";
+import bottomRightImage from "../../assets/images/CASSIOANDREASI-47.jpg 1.webp";
 
 interface CollectionBannersProps {
   collections: Collection[];
@@ -16,83 +20,88 @@ const CollectionBanners: React.FC<CollectionBannersProps> = ({ collections }) =>
   return (
     <section className="w-full">
       {/* Top Row - Two Collection Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2">
-        {/* Collection 1 */}
+      <div className="relative">
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          {/* Collection 1 */}
+          <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden">
+            <Image
+              src={leftImage}
+              alt={topCollections[0]?.title || "New Drop Class"}
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-black/20" />
+          </div>
+
+          {/* Collection 2 */}
+          <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden">
+            <Image
+              src={rightImage}
+              alt={topCollections[1]?.title || "Collection"}
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-black/10" />
+          </div>
+        </div>
+
+        {/* Centered text overlay spanning both columns */}
         <Link
           href={topCollections[0]?.handle ? `/shop/${topCollections[0].handle}` : "/shop"}
-          className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden group"
+          className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6 z-10"
         >
-          {topCollections[0]?.image ? (
-            <Image
-              src={topCollections[0].image.transformedSrc || topCollections[0].image.originalSrc || ""}
-              alt={topCollections[0].title}
-              fill
-              className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          ) : (
-            <div className="w-full h-full bg-[#1a1a1a]" />
-          )}
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
-
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6">
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight">
-              New Drop Class
-            </h3>
-            <span className="mt-4 text-[10px] sm:text-xs tracking-[0.3em] uppercase border-b border-white/70 pb-1 hover:border-white transition-colors">
-              Shop
-            </span>
-          </div>
-        </Link>
-
-        {/* Collection 2 */}
-        <Link
-          href={topCollections[1]?.handle ? `/shop/${topCollections[1].handle}` : "/shop"}
-          className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden group"
-        >
-          {topCollections[1]?.image ? (
-            <Image
-              src={topCollections[1].image.transformedSrc || topCollections[1].image.originalSrc || ""}
-              alt={topCollections[1].title}
-              fill
-              className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          ) : (
-            <div className="w-full h-full bg-[#e0e0e0]" />
-          )}
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight">
+            New Drop Class
+          </h3>
+          <span className="mt-4 text-[10px] sm:text-xs tracking-[0.3em] uppercase border-b border-white/70 pb-1 hover:border-white transition-colors">
+            Shop
+          </span>
         </Link>
       </div>
 
-      {/* Bottom Row - Full Width Banner */}
-      <Link
-        href={bottomCollection?.handle ? `/shop/${bottomCollection.handle}` : "/shop"}
-        className="relative block w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden group"
-      >
-        {bottomCollection?.image ? (
-          <Image
-            src={bottomCollection.image.transformedSrc || bottomCollection.image.originalSrc || ""}
-            alt={bottomCollection.title}
-            fill
-            className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-            sizes="100vw"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-[#666] to-[#1a1a1a]" />
-        )}
+      {/* Bottom Row - Two Collection Cards */}
+      <div className="relative">
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          {/* Bottom Collection 1 */}
+          <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden">
+            <Image
+              src={bottomLeftImage}
+              alt="FALL '26 Collection DROP1"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-black/20" />
+          </div>
 
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
+          {/* Bottom Collection 2 */}
+          <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden">
+            <Image
+              src={bottomRightImage}
+              alt="Collection"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-black/10" />
+          </div>
+        </div>
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-tight max-w-3xl leading-tight uppercase">
+        {/* Centered text overlay spanning both columns */}
+        <Link
+          href={bottomCollection?.handle ? `/shop/${bottomCollection.handle}` : "/shop"}
+          className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6 z-10"
+        >
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight">
             FALL '26 collection DROP1
           </h3>
-          <button className="mt-8 px-6 py-3 border border-white/80 text-[10px] sm:text-xs tracking-[0.2em] uppercase font-medium hover:bg-white hover:text-black transition-all duration-300">
+          <span className="mt-4 text-[10px] sm:text-xs tracking-[0.3em] uppercase border-b border-white/70 pb-1 hover:border-white transition-colors">
             Shop
-          </button>
-        </div>
-      </Link>
+          </span>
+        </Link>
+      </div>
     </section>
   );
 };

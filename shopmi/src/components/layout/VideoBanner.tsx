@@ -68,7 +68,7 @@ const VideoBanner = () => {
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source
-            src="https://cdn.shopify.com/videos/c/o/v/6fb8717b7df043018dcb99afc6411aa9.mp4"
+            src="https://cdn.shopify.com/videos/c/o/v/23161f90de4d40578eed3144dc5cf372.mp4"
             type="video/mp4"
           />
         </video>
