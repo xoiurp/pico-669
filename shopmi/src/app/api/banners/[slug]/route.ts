@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getBannerConfig } from "@/lib/banners";
 import type { BannerSlug } from "@/types/banner";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
