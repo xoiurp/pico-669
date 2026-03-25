@@ -57,6 +57,15 @@ const CollectionBanners: React.FC<CollectionBannersProps> = ({ collections, conf
             className="absolute inset-0"
             style={{ backgroundColor: `rgba(0,0,0,${section.leftOverlayOpacity / 100})` }}
           />
+          {/* Mobile only: title centered on image 1 */}
+          <div className="absolute inset-0 flex items-center justify-center text-white text-center px-4 z-10 md:hidden">
+            <h3
+              className="font-light tracking-tight whitespace-nowrap"
+              style={{ fontSize: "20px" }}
+            >
+              {section.title}
+            </h3>
+          </div>
         </div>
 
         <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden">
@@ -72,12 +81,25 @@ const CollectionBanners: React.FC<CollectionBannersProps> = ({ collections, conf
             className="absolute inset-0"
             style={{ backgroundColor: `rgba(0,0,0,${section.rightOverlayOpacity / 100})` }}
           />
+          {/* Mobile only: shop button centered on image 2 */}
+          <Link
+            href={linkHref}
+            className="absolute inset-0 flex items-center justify-center z-10 md:hidden"
+          >
+            <span
+              className="tracking-[0.3em] uppercase text-white border-b border-white/70 pb-1 hover:border-white transition-colors"
+              style={{ fontSize: "14px" }}
+            >
+              {section.buttonText}
+            </span>
+          </Link>
         </div>
       </div>
 
+      {/* Desktop only: centered text overlay spanning both columns */}
       <Link
         href={linkHref}
-        className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6 z-10"
+        className="absolute inset-0 hidden md:flex flex-col items-center justify-center text-white text-center p-6 z-10"
       >
         <h3
           className="font-light tracking-tight"
