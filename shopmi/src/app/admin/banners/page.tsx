@@ -90,9 +90,6 @@ export default function AdminBannersPage() {
         <div className="p-6 border-b">
           <div className="flex items-center">
             <img src="/logo-pico.svg" alt="PICO" className="h-8 w-8" />
-            {sidebarOpen && (
-              <span className="ml-3 text-xl font-bold text-gray-800">Admin</span>
-            )}
           </div>
         </div>
 
@@ -122,34 +119,10 @@ export default function AdminBannersPage() {
           </div>
 
           <div
-            className={`flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer ${!sidebarOpen && "justify-center"}`}
-            onClick={() => router.push("/admin/customers")}
-          >
-            <Users className="h-5 w-5 text-gray-600" />
-            {sidebarOpen && <span className="ml-3 text-gray-600">Clientes</span>}
-          </div>
-
-          <div
             className={`flex items-center p-3 rounded-lg bg-[#1a1a1a] text-white ${!sidebarOpen && "justify-center"}`}
           >
             <Layout className="h-5 w-5" />
             {sidebarOpen && <span className="ml-3">Banners</span>}
-          </div>
-
-          <div
-            className={`flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer ${!sidebarOpen && "justify-center"}`}
-            onClick={() => router.push("/admin/finance")}
-          >
-            <DollarSign className="h-5 w-5 text-gray-600" />
-            {sidebarOpen && <span className="ml-3 text-gray-600">Financeiro</span>}
-          </div>
-
-          <div
-            className={`flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer ${!sidebarOpen && "justify-center"}`}
-            onClick={() => router.push("/admin/settings")}
-          >
-            <Settings className="h-5 w-5 text-gray-600" />
-            {sidebarOpen && <span className="ml-3 text-gray-600">Configurações</span>}
           </div>
         </nav>
 
