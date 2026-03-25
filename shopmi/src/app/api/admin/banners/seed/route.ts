@@ -103,16 +103,24 @@ const videoBannerConfig: VideoBannerConfig = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export async function POST() {
-  const session = await auth();
-  if (!session || session.user.role !== "ADMIN") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const session = await auth();
+    if (!session || session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await upsertBannerConfig("hero", "Hero Banner", heroConfig);
+    await upsertBannerConfig("collection-banners", "Collection Banners", collectionBannersConfig);
+    await upsertBannerConfig("contemporary-banner", "Contemporary Banner", contemporaryBannerConfig);
+    await upsertBannerConfig("video-banner", "Video Banner", videoBannerConfig);
+
+    return NextResponse.json({ success: true, message: "Banner configs seeded" });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("POST /api/admin/banners/seed error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  await upsertBannerConfig("hero", "Hero Banner", heroConfig);
-  await upsertBannerConfig("collection-banners", "Collection Banners", collectionBannersConfig);
-  await upsertBannerConfig("contemporary-banner", "Contemporary Banner", contemporaryBannerConfig);
-  await upsertBannerConfig("video-banner", "Video Banner", videoBannerConfig);
-
-  return NextResponse.json({ success: true, message: "Banner configs seeded" });
 }
