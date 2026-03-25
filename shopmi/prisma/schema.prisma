@@ -204,6 +204,19 @@ model NewsletterSubscription {
   @@map("newsletter_subscriptions")
 }
 
+model BannerConfig {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  config    Json
+  isActive  Boolean  @default(true) @map("is_active")
+  updatedBy String?  @map("updated_by")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("banner_configs")
+}
+
 enum Role {
   CLIENT
   ADMIN

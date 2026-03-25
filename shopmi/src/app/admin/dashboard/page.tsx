@@ -36,7 +36,8 @@ import {
   Bell,
   Search,
   Menu,
-  RefreshCw
+  RefreshCw,
+  Layout
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -326,7 +327,15 @@ export default function AdminDashboard() {
             {sidebarOpen && <span className="ml-3 text-gray-600">Clientes</span>}
           </div>
 
-          <div 
+          <div
+            className={`flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer ${!sidebarOpen && 'justify-center'}`}
+            onClick={() => router.push('/admin/banners')}
+          >
+            <Layout className="h-5 w-5 text-gray-600" />
+            {sidebarOpen && <span className="ml-3 text-gray-600">Banners</span>}
+          </div>
+
+          <div
             className={`flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer ${!sidebarOpen && 'justify-center'}`}
             onClick={() => router.push('/admin/finance')}
           >
@@ -334,7 +343,7 @@ export default function AdminDashboard() {
             {sidebarOpen && <span className="ml-3 text-gray-600">Financeiro</span>}
           </div>
 
-          <div 
+          <div
             className={`flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer ${!sidebarOpen && 'justify-center'}`}
             onClick={() => router.push('/admin/settings')}
           >
