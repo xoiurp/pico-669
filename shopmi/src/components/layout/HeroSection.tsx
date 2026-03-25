@@ -49,7 +49,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ config: cfg }) => {
       </div>
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4">
-        <div className="mt-auto mb-32 sm:mb-32 md:mb-40 animate-fade-in">
+        <div className="mt-auto mb-auto md:mt-auto md:mb-40 animate-fade-in">
           <h1
             className="font-light tracking-tight mb-4 sm:mb-6"
             style={{ fontSize: `clamp(2.5rem, 5vw, ${Number(c.titleFontSize) / 16}rem)` }}
