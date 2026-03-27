@@ -66,6 +66,7 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const lastScrollY = useRef(0);
@@ -307,13 +308,20 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
                     {/* Category List */}
                     <div className="flex-1 overflow-y-auto px-6 py-6">
                       <nav className="space-y-1">
-                        {/* Destaques */}
+                        {/* Links diretos */}
+                        <Link
+                          href="/shop"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
+                        >
+                          All Products
+                        </Link>
                         <Link
                           href="/shop/novidade"
                           onClick={() => setMobileMenuOpen(false)}
                           className="block py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
                         >
-                          Novidades
+                          News In
                         </Link>
                         <Link
                           href="/shop/sale"
@@ -322,31 +330,84 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
                         >
                           Sale
                         </Link>
-                        <Link
-                          href="/shop/mais-vendidos"
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="block py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
-                        >
-                          Mais Vendidos
-                        </Link>
 
                         {/* Separator */}
                         <div className="border-t border-gray-200 my-3" />
 
-                        {/* Dynamic Collections */}
-                        {allCollections.slice(0, 10).map((collection) => (
-                          <Link
-                            key={collection.id}
-                            href={`/shop/${collection.handle}`}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center justify-between py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
+                        {/* Vestuário - Dropdown */}
+                        <div>
+                          <button
+                            onClick={() => setMobileDropdown(mobileDropdown === "vestuario" ? null : "vestuario")}
+                            className="flex items-center justify-between w-full py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
                           >
-                            {collection.title}
-                            <svg className="w-5 h-5 text-[#999]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            Vestuário
+                            <svg
+                              className={`w-5 h-5 text-[#999] transition-transform duration-200 ${mobileDropdown === "vestuario" ? "rotate-90" : ""}`}
+                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
-                          </Link>
-                        ))}
+                          </button>
+                          {mobileDropdown === "vestuario" && (
+                            <div className="pl-4 pb-2 space-y-1">
+                              <Link href="/shop/camisetas" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Camisetas</Link>
+                              <Link href="/shop/camisas" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Camisas</Link>
+                              <Link href="/shop/moletons" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Moletons</Link>
+                              <Link href="/shop/jaquetas" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Jaquetas</Link>
+                              <Link href="/shop/calcas" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Calças</Link>
+                              <Link href="/shop/shorts" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Shorts</Link>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Acessórios - Dropdown */}
+                        <div>
+                          <button
+                            onClick={() => setMobileDropdown(mobileDropdown === "acessorios" ? null : "acessorios")}
+                            className="flex items-center justify-between w-full py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
+                          >
+                            Acessórios
+                            <svg
+                              className={`w-5 h-5 text-[#999] transition-transform duration-200 ${mobileDropdown === "acessorios" ? "rotate-90" : ""}`}
+                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button>
+                          {mobileDropdown === "acessorios" && (
+                            <div className="pl-4 pb-2 space-y-1">
+                              <Link href="/shop/bones" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Bonés</Link>
+                              <Link href="/shop/gorros" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Gorros</Link>
+                              <Link href="/shop/lencos" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Lenços</Link>
+                              <Link href="/shop/meias" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Meias</Link>
+                              <Link href="/shop/cuecas" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Cuecas</Link>
+                              <Link href="/shop/oculos-de-sol" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Óculos de Sol</Link>
+                              <Link href="/shop/bags" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Bags</Link>
+                              <Link href="/shop/cintos" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">Cintos</Link>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Tênis - Dropdown */}
+                        <div>
+                          <button
+                            onClick={() => setMobileDropdown(mobileDropdown === "tenis" ? null : "tenis")}
+                            className="flex items-center justify-between w-full py-3 text-xl font-bold text-[#1a1a1a] uppercase tracking-wide hover:opacity-60 transition-opacity"
+                          >
+                            Tênis
+                            <svg
+                              className={`w-5 h-5 text-[#999] transition-transform duration-200 ${mobileDropdown === "tenis" ? "rotate-90" : ""}`}
+                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button>
+                          {mobileDropdown === "tenis" && (
+                            <div className="pl-4 pb-2 space-y-1">
+                              <Link href="/shop/tenis-new-balance" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">New Balance</Link>
+                            </div>
+                          )}
+                        </div>
 
                         {/* Separator */}
                         <div className="border-t border-gray-200 my-3" />
@@ -603,62 +664,138 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
             onMouseLeave={() => setMegaMenuOpen(false)}
           >
             <div className="container mx-auto px-8 py-10">
-              <div className="grid grid-cols-4 gap-12">
-                {/* Destaques Column */}
+              <div className="grid grid-cols-5 gap-10">
+                {/* Column 1: Links diretos */}
                 <div>
-                  <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-[#1a1a1a]">
-                    Destaques
-                  </h3>
                   <ul className="space-y-3">
                     <li>
-                      <Link href="/shop/sale" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors uppercase tracking-wide">
+                      <Link href="/shop" onClick={() => setMegaMenuOpen(false)} className="text-sm font-semibold text-[#1a1a1a] hover:opacity-70 transition-colors uppercase tracking-wide">
+                        All Products
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/novidade" onClick={() => setMegaMenuOpen(false)} className="text-sm font-semibold text-[#1a1a1a] hover:opacity-70 transition-colors uppercase tracking-wide">
+                        News In
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/sale" onClick={() => setMegaMenuOpen(false)} className="text-sm font-semibold text-[#1a1a1a] hover:opacity-70 transition-colors uppercase tracking-wide">
                         Sale
                       </Link>
                     </li>
-                    <li>
-                      <Link href="/shop/mais-vendidos" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors uppercase tracking-wide">
-                        Mais Vendidos
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/novidade" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors uppercase tracking-wide">
-                        Novidade
-                      </Link>
-                    </li>
                   </ul>
                 </div>
 
-                {/* Categorias Column */}
+                {/* Column 2: Vestuário */}
                 <div>
                   <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-[#1a1a1a]">
-                    Categorias
+                    <Link href="/shop/vestuario" onClick={() => setMegaMenuOpen(false)} className="hover:opacity-70 transition-opacity">
+                      Vestuário
+                    </Link>
                   </h3>
                   <ul className="space-y-3">
-                    {allCollections.slice(0, 8).map((collection) => (
-                      <li key={collection.id}>
-                        <Link
-                          href={`/shop/${collection.handle}`}
-                          onClick={() => setMegaMenuOpen(false)}
-                          className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors uppercase tracking-wide"
-                        >
-                          {collection.title}
-                        </Link>
-                      </li>
-                    ))}
                     <li>
-                      <Link
-                        href="/shop"
-                        onClick={() => setMegaMenuOpen(false)}
-                        className="text-sm font-semibold text-[#1a1a1a] hover:opacity-70 transition-colors uppercase tracking-wide"
-                      >
-                        Shop All
+                      <Link href="/shop/camisetas" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Camisetas
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/camisas" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Camisas
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/moletons" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Moletons
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/jaquetas" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Jaquetas
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/calcas" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Calças
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/shorts" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Shorts
                       </Link>
                     </li>
                   </ul>
                 </div>
 
-                {/* Featured Collection Images */}
-                {featuredCollections.slice(0, 2).map((collection) => (
+                {/* Column 3: Acessórios */}
+                <div>
+                  <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-[#1a1a1a]">
+                    <Link href="/shop/acessorios" onClick={() => setMegaMenuOpen(false)} className="hover:opacity-70 transition-opacity">
+                      Acessórios
+                    </Link>
+                  </h3>
+                  <ul className="space-y-3">
+                    <li>
+                      <Link href="/shop/bones" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Bonés
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/gorros" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Gorros
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/lencos" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Lenços
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/meias" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Meias
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/cuecas" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Cuecas
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/oculos-de-sol" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Óculos de Sol
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/bags" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Bags
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/cintos" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        Cintos
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Column 4: Tênis */}
+                <div>
+                  <h3 className="text-sm font-semibold mb-5 uppercase tracking-wider text-[#1a1a1a]">
+                    <Link href="/shop/tenis" onClick={() => setMegaMenuOpen(false)} className="hover:opacity-70 transition-opacity">
+                      Tênis
+                    </Link>
+                  </h3>
+                  <ul className="space-y-3">
+                    <li>
+                      <Link href="/shop/tenis-new-balance" onClick={() => setMegaMenuOpen(false)} className="text-sm text-[#666] hover:text-[#1a1a1a] transition-colors tracking-wide">
+                        New Balance
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Column 5: Featured Collection Image */}
+                {featuredCollections.slice(0, 1).map((collection) => (
                   <div key={collection.id}>
                     <Link
                       href={`/shop/${collection.handle}`}
@@ -672,7 +809,7 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
                             alt={collection.image.altText || collection.title}
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            sizes="(max-width: 1280px) 25vw, 300px"
+                            sizes="(max-width: 1280px) 20vw, 250px"
                           />
                         ) : (
                           <div className="w-full h-full bg-[#e5e5e5] flex items-center justify-center">
