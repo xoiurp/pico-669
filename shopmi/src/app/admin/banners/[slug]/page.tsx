@@ -53,11 +53,13 @@ function ImageUploader({
   label: string;
 }) {
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
+    setUploadError(null);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -65,14 +67,22 @@ function ImageUploader({
         method: "POST",
         body: formData,
       });
-      if (res.ok) {
-        const data = await res.json();
-        onChange(data.url);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || `Falha no upload (HTTP ${res.status})`);
       }
+      if (!data?.url) {
+        throw new Error("Resposta do upload sem URL");
+      }
+      onChange(data.url);
     } catch (err) {
-      console.error("Upload failed:", err);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("Upload failed:", message);
+      setUploadError(message);
     } finally {
       setUploading(false);
+      // Reset do input para permitir reenvio do mesmo arquivo
+      e.target.value = "";
     }
   }
 
@@ -101,6 +111,7 @@ function ImageUploader({
               accept="image/webp,image/jpeg,image/png"
               className="hidden"
               onChange={handleUpload}
+              disabled={uploading}
             />
             <Button variant="outline" size="sm" asChild disabled={uploading}>
               <span>
@@ -109,6 +120,12 @@ function ImageUploader({
             </Button>
           </label>
         </div>
+        {uploading && (
+          <p className="text-xs text-gray-500">Enviando imagem para o storage...</p>
+        )}
+        {uploadError && (
+          <p className="text-xs text-red-600">Erro no upload: {uploadError}</p>
+        )}
       </div>
     </FieldGroup>
   );
@@ -601,6 +618,7 @@ export default function BannerEditorPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -629,18 +647,23 @@ export default function BannerEditorPage() {
   async function handleSave() {
     setSaving(true);
     setSaved(false);
+    setSaveError(null);
     try {
       const res = await fetch(`/api/admin/banners/${slug}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ config }),
       });
-      if (res.ok) {
-        setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || `Falha ao salvar (HTTP ${res.status})`);
       }
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
     } catch (err) {
-      console.error("Failed to save:", err);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("Failed to save:", message);
+      setSaveError(message);
     } finally {
       setSaving(false);
     }
@@ -781,6 +804,11 @@ export default function BannerEditorPage() {
               {saved && (
                 <span className="text-sm text-green-600 font-medium">
                   Salvo com sucesso!
+                </span>
+              )}
+              {saveError && (
+                <span className="text-sm text-red-600 font-medium max-w-xs truncate" title={saveError}>
+                  Erro: {saveError}
                 </span>
               )}
               <Button onClick={handleSave} disabled={saving}>

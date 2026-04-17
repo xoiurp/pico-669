@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { getBannerConfig, updateBannerConfig } from "@/lib/banners";
 import type { BannerSlug, BannerConfigData } from "@/types/banner";
@@ -67,6 +68,14 @@ export async function PUT(
       config,
       session.user.email
     );
+
+    try {
+      revalidatePath("/");
+      revalidatePath("/api/banners");
+      revalidatePath(`/api/banners/${slug}`);
+    } catch (e) {
+      console.warn("revalidatePath falhou (ok em dev):", e);
+    }
 
     return NextResponse.json(updated);
   } catch (error: unknown) {

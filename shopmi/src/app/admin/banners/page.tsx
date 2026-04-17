@@ -34,6 +34,7 @@ export default function AdminBannersPage() {
   const [banners, setBanners] = useState<BannerRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [seeding, setSeeding] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -47,13 +48,17 @@ export default function AdminBannersPage() {
 
   async function fetchBanners() {
     try {
+      setError(null);
       const res = await fetch("/api/admin/banners");
-      if (res.ok) {
-        const data = await res.json();
-        setBanners(data);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || `Falha ao carregar banners (HTTP ${res.status})`);
       }
+      setBanners(data);
     } catch (err) {
-      console.error("Failed to fetch banners:", err);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("Failed to fetch banners:", message);
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -61,13 +66,18 @@ export default function AdminBannersPage() {
 
   async function handleSeed() {
     setSeeding(true);
+    setError(null);
     try {
       const res = await fetch("/api/admin/banners/seed", { method: "POST" });
-      if (res.ok) {
-        await fetchBanners();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || `Falha ao inicializar (HTTP ${res.status})`);
       }
+      await fetchBanners();
     } catch (err) {
-      console.error("Failed to seed:", err);
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("Failed to seed:", message);
+      setError(message);
     } finally {
       setSeeding(false);
     }
@@ -167,6 +177,11 @@ export default function AdminBannersPage() {
         </header>
 
         <main className="flex-1 p-6">
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-sm text-red-700">
+              {error}
+            </div>
+          )}
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <p className="text-gray-500">Carregando banners...</p>

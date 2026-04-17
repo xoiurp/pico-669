@@ -199,9 +199,15 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
               </Link>
             </div>
 
-            {/* Center - Welcome + Free Shipping */}
+            {/* Center - Address + Free Shipping */}
             <div className="flex items-center gap-3 mx-auto sm:mx-0">
-              <div className="flex items-center gap-2">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Rua+Major+Solon+996+Campinas"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+                aria-label="Ver endereço no Google Maps"
+              >
                 <svg
                   className="w-3 h-3"
                   fill="none"
@@ -221,8 +227,8 @@ const NewHeader = ({ invertColors = false }: NewHeaderProps) => {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span>Bem-vindo à nossa loja</span>
-              </div>
+                <span>Major Solon, 996</span>
+              </a>
               <span className="hidden sm:inline text-current opacity-40">|</span>
               <span className="hidden sm:inline">Frete grátis acima de R$ 500</span>
             </div>

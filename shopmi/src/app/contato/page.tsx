@@ -22,7 +22,7 @@ const contatoCategories = [
       {
         question: "Quais são os canais de atendimento?",
         answer:
-          "Você pode entrar em contato conosco por e-mail em contato@pico.com.br, pelo chat ao vivo disponível no canto inferior direito do site durante o horário comercial, por telefone no (11) 4002-8922, ou através das nossas redes sociais no Instagram (@pico.oficial) e Facebook. Escolha o canal que for mais conveniente para você.",
+          "Você pode entrar em contato conosco por e-mail em 996.pico@gmail.com, pelo chat ao vivo disponível no canto inferior direito do site durante o horário comercial, por telefone no (19) 99413-3851, ou através das nossas redes sociais no Instagram (@pico.oficial) e Facebook. Escolha o canal que for mais conveniente para você.",
       },
       {
         question: "Qual o horário de atendimento?",
@@ -82,12 +82,12 @@ const contatoCategories = [
       {
         question: "Onde fica a sede da PICO?",
         answer:
-          "Nossa sede está localizada na Rua Augusta, 1234, Consolação, São Paulo - SP, CEP 01304-001. Nosso showroom funciona de segunda a sábado, das 10h às 19h, e você é muito bem-vindo para conhecer nossos produtos pessoalmente. Não é necessário agendamento.",
+          "Nossa sede está localizada na Rua Major Solon, 996, Cambuí, Campinas - SP. Nosso showroom funciona de segunda a sábado, das 10h às 19h, e você é muito bem-vindo para conhecer nossos produtos pessoalmente. Não é necessário agendamento.",
       },
       {
         question: "A PICO possui lojas físicas?",
         answer:
-          "Além da nossa loja principal em São Paulo, estamos presentes em pontos de venda selecionados em diversas capitais brasileiras. Para conhecer o ponto de venda mais próximo de você, entre em contato com nosso atendimento ou consulte a seção \"Nossas Lojas\" no rodapé do site.",
+          "Além da nossa loja principal em Campinas, estamos presentes em pontos de venda selecionados em diversas cidades brasileiras. Para conhecer o ponto de venda mais próximo de você, entre em contato com nosso atendimento ou consulte a seção \"Nossas Lojas\" no rodapé do site.",
       },
       {
         question: "Como posso trabalhar na PICO?",
@@ -154,7 +154,7 @@ export default function ContatoPage() {
             <h3 className="text-xs uppercase tracking-[0.15em] font-medium text-[#1a1a1a] mb-2">
               E-mail
             </h3>
-            <p className="text-sm text-[#666]">contato@pico.com.br</p>
+            <p className="text-sm text-[#666]">996.pico@gmail.com</p>
           </div>
 
           {/* Phone */}
@@ -167,7 +167,7 @@ export default function ContatoPage() {
             <h3 className="text-xs uppercase tracking-[0.15em] font-medium text-[#1a1a1a] mb-2">
               Telefone
             </h3>
-            <p className="text-sm text-[#666]">(11) 4002-8922</p>
+            <p className="text-sm text-[#666]">(19) 99413-3851</p>
           </div>
 
           {/* Address */}
@@ -181,7 +181,7 @@ export default function ContatoPage() {
             <h3 className="text-xs uppercase tracking-[0.15em] font-medium text-[#1a1a1a] mb-2">
               Endereço
             </h3>
-            <p className="text-sm text-[#666]">Rua Augusta, 1234<br />São Paulo - SP</p>
+            <p className="text-sm text-[#666]">Rua Major Solon, 996<br />Cambuí, Campinas - SP</p>
           </div>
         </div>
 
@@ -225,7 +225,7 @@ export default function ContatoPage() {
             rápido possível.
           </p>
           <a
-            href="mailto:contato@pico.com.br"
+            href="mailto:996.pico@gmail.com"
             className="inline-block bg-[#1a1a1a] text-white py-3.5 px-10 text-xs tracking-[0.15em] uppercase font-medium hover:bg-black transition-colors"
           >
             Enviar e-mail

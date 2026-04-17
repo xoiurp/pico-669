@@ -13,6 +13,10 @@ const nextConfig = { // Removida a anotação de tipo ': NextConfig'
       'uxh1te-1d.myshopify.com',
       'shopmi-edge-dev.gustavobressanin6.workers.dev'
     ],
+    remotePatterns: [
+      { protocol: 'https', hostname: '*.r2.dev' },
+      { protocol: 'https', hostname: '*.r2.cloudflarestorage.com' },
+    ],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
